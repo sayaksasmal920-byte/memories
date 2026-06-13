@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Key, RotateCcw, Lock, Unlock, Check, AlertTriangle } from "lucide-react";
+import { Key, RotateCcw, Lock, Unlock, Check, AlertTriangle, UserPlus, Copy, ExternalLink } from "lucide-react";
 import { API_BASE } from "../context/AuthContext";
 
 export default function AdminPanel() {
@@ -12,6 +12,13 @@ export default function AdminPanel() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  // Invite generation state
+  const [adminSecret, setAdminSecret] = useState("");
+  const [inviteLoading, setInviteLoading] = useState(false);
+  const [inviteError, setInviteError] = useState("");
+  const [generatedInvite, setGeneratedInvite] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   // Fetch all active invite tokens (users)
   const fetchUsers = async () => {
@@ -31,6 +38,57 @@ export default function AdminPanel() {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  const handleGenerateInvite = async (e) => {
+    e.preventDefault();
+    if (!adminSecret) {
+      setInviteError("Admin secret is required to generate an invite.");
+      return;
+    }
+    setInviteLoading(true);
+    setInviteError("");
+    setGeneratedInvite(null);
+    setCopied(false);
+
+    try {
+      const res = await fetch(`${API_BASE}/api/admin/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-secret": adminSecret,
+        },
+        body: JSON.stringify({}),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        // Build a client-side invite URL using the current hostname
+        const clientBase = window.location.origin;
+        setGeneratedInvite({
+          ...data.user,
+          inviteUrl: `${clientBase}/u/${data.user.inviteToken}`,
+        });
+        fetchUsers(); // Refresh user list
+      } else if (res.status === 403) {
+        setInviteError("Incorrect admin secret. Check your ADMIN_SECRET in server .env.");
+      } else {
+        setInviteError(data.error || "Failed to generate invite.");
+      }
+    } catch (err) {
+      setInviteError("Connection error. Is the backend server running?");
+    } finally {
+      setInviteLoading(false);
+    }
+  };
+
+  const handleCopyInvite = () => {
+    if (!generatedInvite) return;
+    const text = `Invite Token: ${generatedInvite.inviteToken}\nDefault Password: ${generatedInvite.defaultPassword}\nLogin URL: ${generatedInvite.inviteUrl}`;
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    });
+  };
 
   const handleVerifyCurrentPassword = async (e) => {
     e.preventDefault();
@@ -179,12 +237,95 @@ export default function AdminPanel() {
           </div>
           <div>
             <h2 className="font-display font-black text-xl uppercase tracking-wider leading-tight">
-              Reset Password Portal
+              MemoryVault Node Portal
             </h2>
             <p className="text-[10px] font-extrabold uppercase text-[#5C6F84]">
-              Authenticate and update passwords for MemoryVault invite tokens
+              Generate invite tokens & manage passwords for MemoryVault nodes
             </p>
           </div>
+        </div>
+
+        {/* ── Generate New Invite Card ── */}
+        <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-6 shadow-[6px_6px_0px_0px_rgba(30,41,59,1)] space-y-4">
+          <div className="flex items-center gap-2 border-b-2 border-[#1E293B] pb-3">
+            <div className="w-8 h-8 rounded-full bg-[#EC4899] border-2 border-[#1E293B] flex items-center justify-center shadow-[1.5px_1.5px_0px_0px_rgba(30,41,59,1)]">
+              <UserPlus size={14} color="white" strokeWidth={2.5} />
+            </div>
+            <h3 className="font-display font-black text-sm uppercase tracking-wider">Generate New Node Invite</h3>
+          </div>
+
+          {inviteError && (
+            <div className="bg-[#F87171] bg-opacity-20 border-2 border-[#F87171] text-[#B91C1C] rounded-lg p-3 text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+              <AlertTriangle size={14} /> {inviteError}
+            </div>
+          )}
+
+          <form onSubmit={handleGenerateInvite} className="flex gap-2 items-end">
+            <div className="flex-1 space-y-1">
+              <label className="text-[9px] font-black uppercase text-[#5C6F84] block">Admin Secret</label>
+              <input
+                type="password"
+                placeholder="Enter admin secret key..."
+                value={adminSecret}
+                onChange={(e) => setAdminSecret(e.target.value)}
+                className="w-full input-field text-xs py-2.5 font-bold"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={inviteLoading}
+              className="btn-primary text-xs uppercase py-2.5 px-4 shadow-[2.5px_2.5px_0px_0px_rgba(30,41,59,1)] cursor-pointer flex items-center gap-2 shrink-0"
+            >
+              <UserPlus size={13} />
+              {inviteLoading ? "Generating..." : "Generate Invite"}
+            </button>
+          </form>
+
+          {/* Generated invite result */}
+          {generatedInvite && (
+            <div className="bg-[#FAF3E0] border-2 border-[#10B981] rounded-xl p-4 space-y-3 animate-fade-in shadow-[2px_2px_0px_0px_rgba(16,185,129,1)]">
+              <div className="flex items-center gap-2">
+                <Check size={14} className="text-[#047857]" />
+                <span className="text-xs font-black uppercase text-[#047857]">New Node Created Successfully!</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white border-2 border-[#1E293B] rounded-lg p-2.5 shadow-[1.5px_1.5px_0px_0px_rgba(30,41,59,1)]">
+                  <div className="text-[8px] font-black uppercase text-[#5C6F84] mb-1">Invite Token</div>
+                  <div className="font-display font-black text-lg text-[#8B5CF6]">{generatedInvite.inviteToken}</div>
+                </div>
+                <div className="bg-white border-2 border-[#1E293B] rounded-lg p-2.5 shadow-[1.5px_1.5px_0px_0px_rgba(30,41,59,1)]">
+                  <div className="text-[8px] font-black uppercase text-[#5C6F84] mb-1">Default Password</div>
+                  <div className="font-display font-black text-lg text-[#EC4899]">{generatedInvite.defaultPassword}</div>
+                </div>
+              </div>
+
+              <div className="bg-white border-2 border-[#1E293B] rounded-lg p-2.5 shadow-[1.5px_1.5px_0px_0px_rgba(30,41,59,1)]">
+                <div className="text-[8px] font-black uppercase text-[#5C6F84] mb-1">Shareable Login URL</div>
+                <div className="text-xs font-bold text-[#1E293B] break-all font-mono">{generatedInvite.inviteUrl}</div>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={handleCopyInvite}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs uppercase font-black border-2 border-[#1E293B] rounded-lg shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] cursor-pointer transition-colors ${
+                    copied ? "bg-[#10B981] text-white border-[#10B981]" : "bg-white hover:bg-[#FAF3E0]"
+                  }`}
+                >
+                  {copied ? <><Check size={13} /> Copied!</> : <><Copy size={13} /> Copy Invite Details</>}
+                </button>
+                <a
+                  href={generatedInvite.inviteUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs uppercase font-black border-2 border-[#1E293B] rounded-lg bg-[#8B5CF6] text-white shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] cursor-pointer hover:bg-[#7C3AED] no-underline"
+                >
+                  <ExternalLink size={13} /> Open
+                </a>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Main Content Card */}
