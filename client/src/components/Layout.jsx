@@ -18,10 +18,10 @@ export default function Layout({ children }) {
             <Heart size={28} fill="white" color="white" strokeWidth={2.5} />
           </div>
           <h2 className="font-display font-black text-xl uppercase tracking-wider text-[var(--text-primary)] mb-2">
-            Opening Our Love Story...
+            Ashcheee...
           </h2>
           <p className="text-sm font-bold text-[var(--text-secondary)] uppercase">
-            Unlocking our precious moments...
+            ektu wait kochi...
           </p>
         </div>
       </div>
@@ -64,14 +64,10 @@ export default function Layout({ children }) {
               <Menu size={20} strokeWidth={2.5} />
             </button>
             <div className="font-display font-black text-sm md:text-base uppercase tracking-wider text-[var(--text-primary)]">
-              💖 Our Memories // Connected
+              💖 For MomoPaglus
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="badge badge-primary font-black shadow-[1.5px_1.5px_0px_0px_var(--shadow-color)] text-[10px]">
-              Love Status: Connected
-            </div>
-          </div>
+          
         </header>
 
         {/* Dynamic content scroll frame */}
@@ -83,7 +79,7 @@ export default function Layout({ children }) {
 
         {/* Retro style footer */}
         <footer className="border-t-3 border-[var(--border)] bg-[var(--bg-card)] p-4 text-center text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-wider">
-          © 2026 Our Love Scrapbook // Made with love for my girl.
+          Made with ❤️
         </footer>
       </main>
     </div>

@@ -262,7 +262,7 @@ export default function UploadMedia() {
           <ArrowLeft size={16} strokeWidth={2.5} />
         </button>
         <span className="font-display font-black text-xs uppercase text-[#5C6F84]">
-          Back to gallery
+          Back
         </span>
       </div>
 
@@ -278,7 +278,7 @@ export default function UploadMedia() {
                 <Upload size={14} color="white" strokeWidth={2.5} />
               </div>
               <h2 className="font-display font-black text-base uppercase text-[var(--text-primary)]">
-                Save a Memory 💖
+                Uploaad koro kichu kakaa
               </h2>
             </div>
 
@@ -298,7 +298,7 @@ export default function UploadMedia() {
               />
               <Plus size={28} className="mx-auto text-[var(--text-primary)] mb-2" />
               <p className="text-xs font-black uppercase text-[var(--text-primary)]">
-                Click to choose our memories
+                Click to choose media
               </p>
               <p className="text-[10px] font-semibold text-[var(--text-secondary)] uppercase mt-1">
                 Multiple files supported · Photos, HEIC (iPhone), MP4, WebP, ZIP
@@ -406,7 +406,7 @@ export default function UploadMedia() {
           {queue.length > 0 && (
             <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-5">
               <h3 className="font-display font-black text-xs uppercase border-b-2 border-[var(--border)] pb-2 text-[var(--text-primary)]">
-                Moment Context <span className="text-[var(--text-secondary)] normal-case font-bold text-[9px]">(applied to these photos)</span>
+                Context <span className="text-[var(--text-secondary)] normal-case font-bold text-[9px]">(applied to these photos)</span>
               </h3>
 
               {/* Media type */}
@@ -435,7 +435,7 @@ export default function UploadMedia() {
               {/* Date */}
               <div className="space-y-1">
                 <label className="text-xs font-black uppercase text-[var(--text-primary)] flex items-center gap-1.5">
-                  <Calendar size={12} /> When did this happen?
+                  <Calendar size={12} />Date
                 </label>
                 <input
                   type="date"
@@ -480,10 +480,10 @@ export default function UploadMedia() {
               {/* Story */}
               <div className="space-y-1">
                 <label className="text-xs font-black uppercase text-[var(--text-primary)] flex items-center gap-1.5">
-                  Moment Story <span className="text-[10px] font-bold text-[var(--color-primary)] normal-case">(optional context)</span>
+                  Story behind<span className="text-[10px] font-bold text-[var(--color-primary)] normal-case">(optional context)</span>
                 </label>
                 <textarea
-                  placeholder="Write down the feelings, funny jokes, or details of this moment..."
+                  placeholder="Write down tour thoughts shona ma"
                   value={sharedStory}
                   onChange={(e) => setSharedStory(e.target.value)}
                   disabled={uploading}
@@ -498,7 +498,7 @@ export default function UploadMedia() {
         <div className="lg:col-span-1 space-y-4 lg:sticky lg:top-6">
           <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-4">
             <h3 className="font-display font-black text-sm uppercase border-b-2 border-[var(--border)] pb-2 text-[var(--text-primary)]">
-              Moment Summary
+              Summary
             </h3>
 
             <div className="divide-y divide-[var(--border)] text-[10px] font-bold text-[var(--text-secondary)] uppercase">
@@ -546,7 +546,7 @@ export default function UploadMedia() {
               ) : queue.length === 0 ? (
                 "Select files first"
               ) : (
-                <><Upload size={14} /> Save to Our Memories</>
+                <><Upload size={14} /> Save 👌</>
               )}
             </button>
 

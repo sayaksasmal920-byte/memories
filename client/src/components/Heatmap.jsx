@@ -22,9 +22,9 @@ export default function Heatmap({ data }) {
     <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)]">
       <div className="flex items-center justify-between mb-4 border-b-2 border-[var(--border)] pb-2">
         <h3 className="font-black text-sm uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-2">
-          📅 Our Shared Days Timeline
+          📅 Bakchodi Timeline
         </h3>
-        <span className="text-xs font-extrabold uppercase text-[var(--text-secondary)]">Our Love Calendar</span>
+        <span className="text-xs font-extrabold uppercase text-[var(--text-secondary)]"></span>
       </div>
 
       <div className="space-y-6">
@@ -39,7 +39,7 @@ export default function Heatmap({ data }) {
                   {year}
                 </span>
                 <span className="text-xs uppercase text-[var(--text-secondary)]">
-                  {totalYearUploads} memories this year
+                  {totalYearUploads} bakchodis this year
                 </span>
               </div>
 
@@ -72,26 +72,26 @@ export default function Heatmap({ data }) {
 
       {/* Heatmap Legend */}
       <div className="mt-6 flex flex-wrap gap-4 items-center text-[10px] font-bold text-[var(--text-secondary)] border-t-2 border-dashed border-[var(--border)] pt-4">
-        <span className="uppercase">Memory Level:</span>
+        <span className="uppercase">Bakchodi Level:</span>
         <div className="flex gap-2 items-center">
           <div className="w-4 h-4 border-2 border-dashed border-[var(--border)] bg-[var(--bg-primary)] rounded"></div>
-          <span>No memories yet</span>
+          <span>No bakchodis yet</span>
         </div>
         <div className="flex gap-2 items-center">
           <div className="w-4 h-4 border-2 border-[var(--border)] bg-[var(--color-warning)] rounded shadow-[1px_1px_0px_0px_var(--shadow-color)]"></div>
-          <span>1-3 moments</span>
+          <span>1-3 bakchodis</span>
         </div>
         <div className="flex gap-2 items-center">
           <div className="w-4 h-4 border-2 border-[var(--border)] bg-[var(--color-secondary)] rounded shadow-[1px_1px_0px_0px_var(--shadow-color)]"></div>
-          <span>4-10 moments</span>
+          <span>4-10 bakchodis</span>
         </div>
         <div className="flex gap-2 items-center">
           <div className="w-4 h-4 border-2 border-[var(--border)] bg-[var(--color-accent)] rounded shadow-[1px_1px_0px_0px_var(--shadow-color)]"></div>
-          <span>11-25 moments</span>
+          <span>11-25 bakchodis</span>
         </div>
         <div className="flex gap-2 items-center">
           <div className="w-4 h-4 border-2 border-[var(--border)] bg-[var(--color-primary)] rounded shadow-[1px_1px_0px_0px_var(--shadow-color)]"></div>
-          <span>25+ moments (So much love!)</span>
+          <span>25+ bakchodis (So much love!)</span>
         </div>
       </div>
     </div>

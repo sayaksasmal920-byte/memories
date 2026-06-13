@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { Video, Upload, Download, CheckCircle, Circle, Play, Heart } from "lucide-react";
 
 export default function Videos() {
-  const { apiCall } = useAuth();
+  const { apiCall, downloadFile } = useAuth();
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -18,28 +18,6 @@ export default function Videos() {
   useEffect(() => {
     fetchVideos();
   }, []);
-
-  const downloadFile = async (url, title) => {
-    try {
-      const downloadName = title || "memory";
-      const proxyUrl = `/api/media/download-file?url=${encodeURIComponent(url)}&name=${encodeURIComponent(downloadName)}`;
-      const res = await apiCall(proxyUrl);
-      if (!res.ok) throw new Error("Proxy download error");
-      const blob = await res.blob();
-      const objectUrl = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = objectUrl;
-      const extension = url.split(".").pop().split("?")[0] || "mp4";
-      a.download = `${downloadName}.${extension}`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(objectUrl);
-    } catch (err) {
-      console.error("Download failed:", err);
-      window.open(url, "_blank");
-    }
-  };
 
   const handleDownloadIndividually = async () => {
     if (selectedIds.size === 0) return;
@@ -196,16 +174,6 @@ export default function Videos() {
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={() => {
-              setSelectMode(!selectMode);
-              setSelectedIds(new Set());
-            }}
-            className={`btn-ghost text-xs uppercase ${selectMode ? "bg-[var(--color-secondary)] text-[var(--text-primary)]" : ""}`}
-            style={{ padding: "0.5rem 1.25rem" }}
-          >
-            {selectMode ? "Cancel Select" : "Select Clip Collection"}
-          </button>
           
           <Link
             to="/videos/upload"
@@ -222,7 +190,7 @@ export default function Videos() {
         <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-12 text-center shadow-[5px_5px_0px_0px_var(--shadow-color)]">
           <Video size={48} className="mx-auto text-[var(--text-muted)] mb-4" />
           <h3 className="font-display font-black text-base uppercase text-[var(--text-primary)] mb-2">No videos logged yet</h3>
-          <p className="text-xs font-bold text-[var(--text-secondary)] uppercase mb-6">Let's capture and upload our first love clip together!</p>
+          <p className="text-xs font-bold text-[var(--text-secondary)] uppercase mb-6">first video upload kore de!!</p>
           <Link to="/videos/upload" className="btn-primary text-xs uppercase">
             Upload Video
           </Link>
@@ -320,7 +288,7 @@ export default function Videos() {
                       {/* Starred indicator overlay */}
                       {video.favorite && (
                         <div className="absolute top-2 left-2 bg-[var(--color-primary)] text-white border border-[var(--border)] text-[8px] font-black uppercase px-2 py-0.5 rounded shadow-[1px_1px_0px_0px_var(--shadow-color)] flex items-center gap-1">
-                          Loved 💖
+                          Liked 💖
                         </div>
                       )}
 

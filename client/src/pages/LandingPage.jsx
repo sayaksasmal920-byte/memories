@@ -23,7 +23,7 @@ export default function LandingPage() {
               <Heart size={14} fill="white" color="white" strokeWidth={2.5} />
             </div>
             <span className="font-display font-black text-lg uppercase tracking-wider text-[var(--text-primary)]">
-              Our Love<span className="text-[var(--color-primary)]">Story</span>
+              Gulu<span className="text-[var(--color-primary)]">Gulu</span>
             </span>
           </div>
 
@@ -46,7 +46,7 @@ export default function LandingPage() {
 
         <div className="inline-flex items-center gap-1.5 bg-[var(--bg-card)] border-2 border-[var(--border)] rounded-full px-5 py-1.5 text-xs font-black tracking-wide shadow-[3px_3px_0px_0px_var(--shadow-color)] mb-8 uppercase">
           <Heart className="text-[var(--color-primary)] heartbeat" size={12} fill="var(--color-primary)" strokeWidth={2.5} />
-          Our Love Scrapbook & Timeline
+          Scrapbook & Timeline of some random pictues , videos and some memories we shared
         </div>
 
         <h1 className="font-display font-black text-4xl sm:text-6xl tracking-tight leading-none mb-6 text-[var(--text-primary)]">
@@ -57,13 +57,13 @@ export default function LandingPage() {
         </h1>
 
         <p className="font-sans text-base md:text-lg text-[var(--text-primary)] font-medium max-w-xl mx-auto mb-10 leading-relaxed">
-          More than just photos and videos. This is a collection of our stories, our laughter, and our deep bond. Our memories, forever preserved.
+          
         </p>
 
         {/* ── Direct Token Gateway Card ────────────────────────────────────── */}
         <div className="max-w-md w-full bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[6px_6px_0px_0px_var(--shadow-color)] text-left mb-8">
           <h3 className="font-display font-black text-sm uppercase tracking-wider text-[var(--text-primary)] mb-3">
-            🔑 Enter Our Love Key
+            🔑 first chabi (invite key) ekhane
           </h3>
           <form onSubmit={handleGo} className="flex gap-2 flex-col sm:flex-row">
             <input
@@ -77,11 +77,11 @@ export default function LandingPage() {
               type="submit"
               className="btn-primary shadow-[2px_2px_0px_0px_var(--shadow-color)] hover:translate-x-0.5 hover:shadow-[1px_1px_0px_0px_var(--shadow-color)] whitespace-nowrap cursor-pointer text-xs"
             >
-              Unlock Our Memories <Heart size={14} fill="white" strokeWidth={2.5} />
+              Unlock karke dekho <Heart size={14} fill="white" strokeWidth={2.5} />
             </button>
           </form>
           <p className="text-[10px] font-bold text-[var(--text-secondary)] uppercase mt-3">
-            If you received a full link, click it directly or paste our secret key above.
+            paste Invite token above.
           </p>
         </div>
       </section>
@@ -90,7 +90,7 @@ export default function LandingPage() {
 
       {/* ── Footer ─────────────────────────────────────────────────────────── */}
       <footer className="border-t-3 border-[var(--border)] bg-[var(--bg-card)] py-8 text-center text-xs font-display font-bold text-[var(--text-secondary)] tracking-wider uppercase">
-        © 2026 Our Love Scrapbook // Made with love for my girl.
+        Made with ❤️
       </footer>
     </div>
   );

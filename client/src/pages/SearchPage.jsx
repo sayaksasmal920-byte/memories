@@ -36,7 +36,7 @@ export default function SearchPage() {
       {/* Search Header Panel */}
       <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)]">
         <h2 className="font-display font-black text-xl uppercase tracking-wider leading-tight mb-4 flex items-center gap-2">
-          🔍 Search Our Memories
+          🔍 Search koro
         </h2>
         
         {/* Search Input bar */}
@@ -54,7 +54,7 @@ export default function SearchPage() {
             type="submit"
             className="btn-primary py-3 px-6 shadow-[3px_3px_0px_0px_var(--shadow-color)] cursor-pointer text-xs shrink-0"
           >
-            Search Logs
+            Search
           </button>
         </form>
       </div>
@@ -74,8 +74,8 @@ export default function SearchPage() {
 
           {results.length === 0 ? (
             <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-12 text-center shadow-[5px_5px_0px_0px_var(--shadow-color)]">
-              <p className="text-sm font-black uppercase text-[var(--text-secondary)]">No matching memories found.</p>
-              <p className="text-[10px] font-semibold text-[var(--text-secondary)] uppercase mt-1">Try querying different keywords or tags (e.g. goa, friends, beach)</p>
+              <p className="text-sm font-black uppercase text-[var(--text-secondary)]">No matching media found.</p>
+              <p className="text-[10px] font-semibold text-[var(--text-secondary)] uppercase mt-1">Try querying different keywords or tags</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

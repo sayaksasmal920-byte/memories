@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { Heart, Image, Film, Smile, Download } from "lucide-react";
 
 export default function Favorites() {
-  const { apiCall } = useAuth();
+  const { apiCall, downloadFile } = useAuth();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -23,28 +23,6 @@ export default function Favorites() {
       console.error(err);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const downloadFile = async (url, title) => {
-    try {
-      const downloadName = title || "memory";
-      const proxyUrl = `/api/media/download-file?url=${encodeURIComponent(url)}&name=${encodeURIComponent(downloadName)}`;
-      const res = await apiCall(proxyUrl);
-      if (!res.ok) throw new Error("Proxy download error");
-      const blob = await res.blob();
-      const objectUrl = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = objectUrl;
-      const extension = url.split(".").pop().split("?")[0] || "jpg";
-      a.download = `${downloadName}.${extension}`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(objectUrl);
-    } catch (err) {
-      console.error("Download failed:", err);
-      window.open(url, "_blank");
     }
   };
 
@@ -67,10 +45,10 @@ export default function Favorites() {
           </div>
           <div>
             <h2 className="font-display font-black text-xl uppercase tracking-wider leading-tight text-[var(--text-primary)]">
-              Cherished Moments
+              Favourites
             </h2>
             <p className="text-[10px] font-extrabold uppercase text-[var(--text-secondary)]">
-              💖 Loved moments • {favorites.length} loved
+              {favorites.length} liked ❤️
             </p>
           </div>
         </div>
@@ -79,8 +57,8 @@ export default function Favorites() {
       {favorites.length === 0 ? (
         <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-12 text-center shadow-[5px_5px_0px_0px_var(--shadow-color)]">
           <Heart size={48} className="mx-auto text-[var(--text-muted)] mb-4 heartbeat" fill="var(--color-secondary)" />
-          <h3 className="font-display font-black text-base uppercase text-[var(--text-primary)] mb-2">No cherished moments yet</h3>
-          <p className="text-xs font-bold text-[var(--text-secondary)] uppercase mb-6">Press the heart button on our sweet photos and clips to save them here forever.</p>
+          <h3 className="font-display font-black text-base uppercase text-[var(--text-primary)] mb-2">No Favourites added yet</h3>
+          <p className="text-xs font-bold text-[var(--text-secondary)] uppercase mb-6">press the heart button to show them here</p>
           <Link to="/dashboard" className="btn-primary text-xs uppercase">
             Browse Timeline
           </Link>
@@ -105,7 +83,7 @@ export default function Favorites() {
                 </span>
 
                 <span className="absolute top-2 left-2 bg-[var(--color-primary)] text-white border border-[var(--border)] text-[8px] font-black uppercase px-2 py-0.5 rounded shadow-[1px_1px_0px_0px_var(--shadow-color)] flex items-center gap-1">
-                  💖 Loved
+                  💖 Liked
                 </span>
 
                 <button

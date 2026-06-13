@@ -67,7 +67,7 @@ export default function ChangePassword() {
         {success ? (
           <div className="bg-[#34D399] bg-opacity-20 border-2 border-[#34D399] text-[#047857] rounded-lg p-4 text-center font-bold uppercase tracking-wider mb-6 flex flex-col items-center gap-2">
             <Check size={28} className="text-[#34D399] animate-bounce" strokeWidth={3} />
-            <span>Memories Secured! Redirecting...</span>
+            <span>bondhuder dekhash na pls 🙏</span>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">

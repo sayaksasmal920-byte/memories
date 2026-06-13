@@ -67,11 +67,11 @@ export default function Dashboard() {
         </div>
         <div className="space-y-2">
           <h2 className="font-display font-black text-2xl uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-2">
-            Welcome Back, My Love 💖
+            Ashun Maharani, koti koti pranam 🙏
           </h2>
           <p className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wide">
-            Heartbeat: pulsing • we have shared{" "}
-            <span className="text-[var(--color-primary)] font-extrabold">{mediaList.length} precious moments</span>
+            MyGod {" "}
+            <span className="text-[var(--color-primary)] font-extrabold">{mediaList.length} chhobi,video</span>
           </p>
         </div>
         
@@ -83,7 +83,7 @@ export default function Dashboard() {
             style={{ padding: "0.6rem 1.5rem" }}
           >
             <Upload size={14} strokeWidth={2.5} />
-            Add a Moment
+            Add korun kichu
           </Link>
         </div>
       </div>
@@ -92,7 +92,7 @@ export default function Dashboard() {
       <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-6">
         <div className="flex items-center justify-between border-b-2 border-[var(--border)] pb-2">
           <h3 className="font-display font-black text-sm uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-2">
-            📸 Our Latest Memories
+            📸 Frames
           </h3>
           <span className="text-[10px] font-extrabold uppercase text-[var(--text-secondary)]">Just Added</span>
         </div>
@@ -100,7 +100,7 @@ export default function Dashboard() {
         {recentMedia.length === 0 ? (
           <div className="text-center py-12 bg-[var(--bg-primary)] border-2 border-dashed border-[var(--border)] rounded-lg">
             <p className="text-sm font-bold text-[var(--text-secondary)] uppercase">
-              No moments added yet. Let's start uploading our memory snapshot!
+              kichui nei ekhon. asap add korun!!!
             </p>
           </div>
         ) : (
@@ -157,7 +157,7 @@ export default function Dashboard() {
       {/* Add to Our Story Card */}
       <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-4">
         <h3 className="font-display font-black text-sm uppercase tracking-wider text-[var(--text-primary)] border-b-2 border-[var(--border)] pb-2 flex items-center gap-2">
-          💖 Add to Our Story
+          Add kor bhai
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

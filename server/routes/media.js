@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const AdmZip = require("adm-zip");
+const fs = require("fs");
+const path = require("path");
 const db = require("../services/db");
 const storage = require("../services/storage");
 const { verifyUserToken } = require("../middleware/auth");
@@ -317,6 +319,67 @@ router.get("/similar", verifyUserToken, async (req, res) => {
   }
 });
 
+// 10. Proxy download of a single file to bypass CORS and force save-to-disk
+router.get("/download-file", verifyUserToken, async (req, res) => {
+  const { url, name } = req.query;
+  if (!url) {
+    return res.status(400).json({ error: "Provide a file url to download." });
+  }
+
+  try {
+    const isLocal = url.startsWith("/uploads/") || url.includes("/uploads/");
+    let extension = "jpg";
+    let baseFileName = "memory";
+
+    try {
+      const parsedUrl = new URL(url.startsWith("/") && !url.startsWith("/uploads/") ? `http://localhost${url}` : url);
+      const pathname = parsedUrl.pathname;
+      extension = pathname.split(".").pop().split("?")[0] || "jpg";
+      baseFileName = path.basename(pathname, `.${extension}`) || "memory";
+    } catch (_) {
+      const parts = url.split("?")[0].split(".");
+      if (parts.length > 1) {
+        extension = parts.pop();
+      }
+    }
+
+    const downloadName = name ? `${name}.${extension}` : `${baseFileName}.${extension}`;
+
+    if (isLocal) {
+      let relativeUrl = url;
+      if (url.includes("/uploads/")) {
+        relativeUrl = "/uploads/" + url.split("/uploads/")[1];
+      }
+      const localPath = path.join(__dirname, "..", relativeUrl);
+      if (fs.existsSync(localPath)) {
+        res.setHeader("Content-Disposition", `attachment; filename="${encodeURIComponent(downloadName)}"`);
+        return res.sendFile(localPath);
+      } else {
+        return res.status(404).json({ error: "File not found locally." });
+      }
+    } else {
+      let fetchUrl = url;
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        fetchUrl = await storage.getPresignedUrl(url);
+      }
+      const response = await fetch(fetchUrl);
+      if (!response.ok) {
+        return res.status(response.status).json({ error: "Failed to retrieve remote resource." });
+      }
+      
+      const contentType = response.headers.get("content-type") || "application/octet-stream";
+      res.setHeader("Content-Type", contentType);
+      res.setHeader("Content-Disposition", `attachment; filename="${encodeURIComponent(downloadName)}"`);
+      
+      const { Readable } = require("stream");
+      Readable.fromWeb(response.body).pipe(res);
+    }
+  } catch (err) {
+    console.error("Proxy download error:", err);
+    return res.status(500).json({ error: "Failed to download file via proxy." });
+  }
+});
+
 // 5. Get Single Media (Increments Views)
 router.get("/:id", verifyUserToken, async (req, res) => {
   const { id } = req.params;
@@ -410,31 +473,43 @@ router.post("/download-bundle", verifyUserToken, async (req, res) => {
   try {
     const zip = new AdmZip();
     const mediaItems = await db.Media.find({});
-    const itemsToZip = mediaItems.filter(item => mediaIds.includes(item._id) || mediaIds.includes(item.id));
+    const itemsToZip = mediaItems.filter(item => {
+      const idStr = item._id ? item._id.toString() : "";
+      const itemIdStr = item.id ? item.id.toString() : "";
+      return mediaIds.includes(idStr) || mediaIds.includes(itemIdStr);
+    });
 
     if (itemsToZip.length === 0) {
       return res.status(404).json({ error: "No matching media items found." });
     }
 
-    const fs = require("fs");
-    const path = require("path");
-
     for (const item of itemsToZip) {
+      const isLocal = item.fileUrl.startsWith("/uploads/") || item.fileUrl.includes("/uploads/");
       // Determine file location
-      if (item.fileUrl.startsWith("/uploads/")) {
-        const localPath = path.join(__dirname, "../..", item.fileUrl);
+      if (isLocal) {
+        let relativeUrl = item.fileUrl;
+        if (item.fileUrl.includes("/uploads/")) {
+          relativeUrl = "/uploads/" + item.fileUrl.split("/uploads/")[1];
+        }
+        const localPath = path.join(__dirname, "..", relativeUrl);
         if (fs.existsSync(localPath)) {
           zip.addLocalFile(localPath);
         }
       } else {
         // Fetch remote cloud resource
         try {
-          const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args));
-          const response = await fetch(item.fileUrl);
-          const buffer = await response.buffer();
-          zip.addFile(item.fileName, buffer);
+          let fetchUrl = item.fileUrl;
+          if (!fetchUrl.startsWith("http://") && !fetchUrl.startsWith("https://")) {
+            fetchUrl = await storage.getPresignedUrl(fetchUrl);
+          }
+          const response = await fetch(fetchUrl);
+          if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+          }
+          const arrayBuffer = await response.arrayBuffer();
+          zip.addFile(item.fileName, Buffer.from(arrayBuffer));
         } catch (fetchErr) {
-          console.error(`Failed to download remote file for ZIP: ${item.fileUrl}`, fetchErr);
+          console.error(`Failed to download remote file for ZIP: ${item.fileUrl}`, fetchErr.message);
         }
       }
     }
@@ -449,58 +524,6 @@ router.post("/download-bundle", verifyUserToken, async (req, res) => {
   }
 });
 
-// 10. Proxy download of a single file to bypass CORS and force save-to-disk
-router.get("/download-file", verifyUserToken, async (req, res) => {
-  const { url, name } = req.query;
-  if (!url) {
-    return res.status(400).json({ error: "Provide a file url to download." });
-  }
-
-  try {
-    const fs = require("fs");
-    const path = require("path");
-
-    const isLocal = url.startsWith("/uploads/");
-    let extension = "jpg";
-    let baseFileName = "memory";
-
-    try {
-      const parsedUrl = new URL(url.startsWith("/") ? `http://localhost${url}` : url);
-      const pathname = parsedUrl.pathname;
-      extension = pathname.split(".").pop().split("?")[0] || "jpg";
-      baseFileName = path.basename(pathname, `.${extension}`) || "memory";
-    } catch (_) {
-      // Fallback
-    }
-
-    const downloadName = name ? `${name}.${extension}` : `${baseFileName}.${extension}`;
-
-    if (isLocal) {
-      const localPath = path.join(__dirname, "../..", url);
-      if (fs.existsSync(localPath)) {
-        res.setHeader("Content-Disposition", `attachment; filename="${encodeURIComponent(downloadName)}"`);
-        return res.sendFile(localPath);
-      } else {
-        return res.status(404).json({ error: "File not found locally." });
-      }
-    } else {
-      const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args));
-      const response = await fetch(url);
-      if (!response.ok) {
-        return res.status(response.status).json({ error: "Failed to retrieve remote resource." });
-      }
-      
-      const contentType = response.headers.get("content-type") || "application/octet-stream";
-      res.setHeader("Content-Type", contentType);
-      res.setHeader("Content-Disposition", `attachment; filename="${encodeURIComponent(downloadName)}"`);
-      
-      response.body.pipe(res);
-    }
-  } catch (err) {
-    console.error("Proxy download error:", err);
-    return res.status(500).json({ error: "Failed to download file via proxy." });
-  }
-});
 
 // 9. Manage Relationships Link
 router.post("/:id/relate", verifyUserToken, async (req, res) => {

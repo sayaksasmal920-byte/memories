@@ -6,7 +6,7 @@ import { Heart, Trash2, Edit2, Check, ArrowLeft, MessageSquare, Tag, PlusCircle,
 export default function MediaDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { apiCall } = useAuth();
+  const { apiCall, downloadFile } = useAuth();
 
   const [media, setMedia] = useState(null);
   const [comments, setComments] = useState([]);
@@ -205,26 +205,8 @@ export default function MediaDetail() {
     }
   };
 
-  const handleDownload = async () => {
-    try {
-      const downloadName = media.title || "memory";
-      const proxyUrl = `/api/media/download-file?url=${encodeURIComponent(media.fileUrl)}&name=${encodeURIComponent(downloadName)}`;
-      const res = await apiCall(proxyUrl);
-      if (!res.ok) throw new Error("Proxy download error");
-      const blob = await res.blob();
-      const objectUrl = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = objectUrl;
-      const extension = media.fileUrl.split(".").pop().split("?")[0] || (media.mediaType === "video" ? "mp4" : "jpg");
-      a.download = `${downloadName}.${extension}`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(objectUrl);
-    } catch (err) {
-      console.error("Download failed, using direct fallback:", err);
-      window.open(media.fileUrl, "_blank");
-    }
+  const handleDownload = () => {
+    downloadFile(media.fileUrl, media.title || media.fileName);
   };
 
   const addTag = (tag) => {
@@ -296,7 +278,7 @@ export default function MediaDetail() {
               <ArrowLeft size={16} strokeWidth={2.5} />
             </button>
             <span className="font-display font-black text-xs uppercase text-[var(--text-secondary)]">
-              Back to Timeline
+              Back
             </span>
           </div>
 
@@ -381,14 +363,14 @@ export default function MediaDetail() {
             <div className="flex items-center justify-between border-b-2 border-[var(--border)] pb-2 mb-4">
               <h3 className="font-display font-black text-sm uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-2">
                 <Sparkles size={16} color="var(--color-primary)" strokeWidth={2.5} />
-                Our Love Journal
+                For Context
               </h3>
               {!isEditing && (
                 <button
                   onClick={() => setIsEditing(true)}
                   className="btn-ghost flex items-center gap-1.5 text-[10px] uppercase py-1 px-3 shadow-[1.5px_1.5px_0px_0px_var(--shadow-color)] cursor-pointer"
                 >
-                  <Edit2 size={10} /> Edit Our Journal
+                  <Edit2 size={10} /> Edit Context
                 </button>
               )}
             </div>
@@ -409,14 +391,14 @@ export default function MediaDetail() {
 
                 {/* Story narrative */}
                 <div className="bg-[var(--bg-primary)] border-2 border-[var(--border)] rounded-lg p-4 shadow-[2px_2px_0px_0px_var(--shadow-color)]">
-                  <div className="text-[9px] font-black text-[var(--text-secondary)] uppercase mb-2">What we felt in this moment:</div>
+                  <div className="text-[9px] font-black text-[var(--text-secondary)] uppercase mb-2">description</div>
                   {media.story ? (
                     <p className="text-sm font-medium leading-relaxed whitespace-pre-wrap italic">
                       "{media.story}"
                     </p>
                   ) : (
                     <p className="text-xs font-black uppercase text-[var(--color-primary)] py-2">
-                      💖 No story written down yet! Click "Edit Journal" above to describe this special day so we never forget.
+                       Nothing written down yet! Click "Edit Context" above to describe this day so we never forget.
                     </p>
                   )}
                 </div>
@@ -437,7 +419,7 @@ export default function MediaDetail() {
               /* Editing Form Mode */
               <form onSubmit={handleSaveJournal} className="space-y-4 animate-fade-in">
                 <div className="space-y-1">
-                  <label className="text-xs font-black uppercase block">Moment Title</label>
+                  <label className="text-xs font-black uppercase block">Title</label>
                   <input
                     type="text"
                     value={editTitle}
@@ -448,7 +430,7 @@ export default function MediaDetail() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-black uppercase block">When did this happen?</label>
+                  <label className="text-xs font-black uppercase block">Date</label>
                   <input
                     type="date"
                     value={editDate}
@@ -488,12 +470,12 @@ export default function MediaDetail() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-black uppercase block">The Story of Us</label>
+                  <label className="text-xs font-black uppercase block">Exactly what happened</label>
                   <textarea
                     value={editStory}
                     onChange={(e) => setEditStory(e.target.value)}
                     className="input-field min-h-24 resize-none leading-relaxed"
-                    placeholder="Describe this special day..."
+                    placeholder="Describe this day..."
                   />
                 </div>
 
@@ -509,7 +491,7 @@ export default function MediaDetail() {
                     type="submit"
                     className="btn-primary text-xs uppercase shadow-[2.5px_2.5px_0px_0px_var(--shadow-color)] cursor-pointer"
                   >
-                    Save Our Moment
+                    Save
                   </button>
                 </div>
               </form>
@@ -520,14 +502,14 @@ export default function MediaDetail() {
           <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-4">
             <h3 className="font-display font-black text-sm uppercase tracking-wider text-[var(--text-primary)] border-b-2 border-[var(--border)] pb-2 flex items-center gap-2">
               <MessageSquare size={16} color="var(--color-secondary)" strokeWidth={2.5} />
-              Our Sweet Messages ({comments.length})
+              Comments ({comments.length})
             </h3>
 
             {/* List current comments */}
             <div className="space-y-3 max-h-48 overflow-y-auto pr-1">
               {comments.length === 0 ? (
                 <div className="text-center py-4 text-[10px] font-bold text-[var(--text-secondary)] uppercase">
-                  No messages logged yet. Write something sweet below!
+                  No comments yet. Write something below!
                 </div>
               ) : (
                 comments.map((comment) => (
@@ -617,7 +599,7 @@ export default function MediaDetail() {
             {availableToRelate.length > 0 && (
               <form onSubmit={handleAddRelation} className="pt-2 border-t-2 border-dashed border-[var(--border)] space-y-2">
                 <span className="text-[10px] font-black text-[var(--text-secondary)] uppercase block">
-                  Link a Connected Moment:
+                  Link a moment:
                 </span>
                 <div className="flex gap-2">
                   <select
@@ -625,7 +607,7 @@ export default function MediaDetail() {
                     onChange={(e) => setRelationSelectId(e.target.value)}
                     className="input-field text-xs bg-white border-2 py-1.5 flex-1"
                   >
-                    <option value="">-- Choose Moment --</option>
+                    <option value="">-- Choose --</option>
                     {availableToRelate.map(item => (
                       <option key={item._id || item.id} value={item._id || item.id}>
                         {item.title || item.fileName} ({item.mediaType})
@@ -650,7 +632,7 @@ export default function MediaDetail() {
         <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-4">
           <h3 className="font-display font-black text-sm uppercase tracking-wider text-[var(--text-primary)] border-b-2 border-[var(--border)] pb-2 flex items-center gap-2">
             <Sparkles size={16} color="var(--color-primary)" strokeWidth={2.5} />
-            Explore Our Love Line
+            MomoPaglus_Xtra
           </h3>
           
           <div className="flex overflow-x-auto gap-4 py-2 pb-4 scrollbar-thin">
@@ -700,10 +682,10 @@ export default function MediaDetail() {
           
           <div className="space-y-2">
             <h3 className="font-display font-black text-lg uppercase tracking-wider text-[var(--text-primary)]">
-              Let go of this memory?
+              Let go of this?
             </h3>
             <p className="text-xs font-bold text-[var(--text-secondary)] leading-relaxed uppercase">
-              Are you sure you want to erase this special moment from our love story forever? This cannot be undone.
+              Are you sure bbg😞?
             </p>
           </div>
 
@@ -720,7 +702,7 @@ export default function MediaDetail() {
               onClick={handleConfirmDelete}
               className="flex-1 btn-primary bg-[#F87171] hover:bg-[#EF4444] text-[#FFF] text-xs uppercase py-2.5 shadow-[2px_2px_0px_0px_var(--shadow-color)] cursor-pointer"
             >
-              Delete Forever
+              Delete
             </button>
           </div>
         </div>

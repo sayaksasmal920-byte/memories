@@ -237,10 +237,10 @@ export default function AdminPanel() {
           </div>
           <div>
             <h2 className="font-display font-black text-xl uppercase tracking-wider leading-tight">
-              Memories Portal
+              Invitation Portal
             </h2>
             <p className="text-[10px] font-extrabold uppercase text-[#5C6F84]">
-              Generate invite tokens & manage passwords for our memories
+              Generate invite tokens & manage passwords 
             </p>
           </div>
         </div>
@@ -343,6 +343,13 @@ export default function AdminPanel() {
               <Check size={16} /> {success}
             </div>
           )}
+
+          <div className="flex items-center gap-2 border-b-2 border-[#1E293B] pb-3">
+            <h3 className="font-display font-black text-xs uppercase tracking-wider text-[#1E293B] flex items-center gap-2">
+              <Key size={14} strokeWidth={2.5} />
+              Set Custom Password 
+            </h3>
+          </div>
 
           {/* Select User Dropdown */}
           <div className="space-y-2">

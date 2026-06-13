@@ -54,10 +54,10 @@ export default function InviteLogin() {
         </div>
 
         <h2 className="font-display font-black text-2xl uppercase tracking-wider text-center mb-1">
-          Unlock Our Memories
+          Bondhuder shamne khulbi na pls 🙏
         </h2>
         <p className="text-xs font-bold text-center text-[var(--text-secondary)] uppercase tracking-wide mb-8">
-          Personal Memories • Link: <span className="text-[var(--color-primary)]">/u/{token}</span>
+          Thoda Personal • Link: <span className="text-[var(--color-primary)]">/u/{token}</span>
         </p>
 
         {error && (
@@ -70,7 +70,7 @@ export default function InviteLogin() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-1">
             <label className="text-xs font-black uppercase text-[var(--text-primary)] block">
-              Invite Token
+              first chabi (Invite Token)
             </label>
             <input
               type="text"
@@ -82,7 +82,7 @@ export default function InviteLogin() {
 
           <div className="space-y-1">
             <label className="text-xs font-black uppercase text-[var(--text-primary)] block">
-              Password
+              Second chabi (Password)
             </label>
             <input
               type="password"
@@ -94,7 +94,7 @@ export default function InviteLogin() {
               autoFocus
             />
             <p className="text-[9px] font-semibold text-[var(--text-secondary)] uppercase mt-1">
-              For your initial login, enter the default password provided (e.g. <span className="select-all text-[var(--text-primary)] font-bold">memory123</span>).
+              For your initial login, enter the default password provided (e.g. <span className="select-all text-[var(--text-primary)] font-bold">GheeKhatam</span>).
             </p>
           </div>
 
@@ -113,7 +113,7 @@ export default function InviteLogin() {
             to="/"
             className="text-xs font-black uppercase text-[var(--text-secondary)] hover:text-[var(--color-primary)] transition-all no-underline"
           >
-            ← Back to brand portal
+            ← Back to landing page
           </Link>
         </div>
       </div>

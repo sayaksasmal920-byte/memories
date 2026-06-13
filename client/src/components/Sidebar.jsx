@@ -21,12 +21,12 @@ export default function Sidebar({ isOpen, onClose }) {
   const location = useLocation();
 
   const menuItems = [
-    { name: "Love Lane", path: "/dashboard", icon: LayoutDashboard, color: "var(--color-primary)" },
+    { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard, color: "var(--color-primary)" },
     { name: "Our Gallery", path: "/photos", icon: Image, color: "var(--color-secondary)" },
     { name: "Our Clips", path: "/videos", icon: Video, color: "var(--color-accent)" },
-    { name: "Cherished Moments", path: "/favorites", icon: Heart, color: "var(--color-success)" },
-    { name: "Find a Moment", path: "/search", icon: Search, color: "var(--color-primary)" },
-    { name: "Security Key", path: "/admin", icon: Key, color: "var(--color-danger)" },
+    { name: "Favourities", path: "/favorites", icon: Heart, color: "var(--color-success)" },
+    { name: "Search", path: "/search", icon: Search, color: "var(--color-primary)" },
+    { name: "Security", path: "/admin", icon: Key, color: "var(--color-danger)" },
   ];
 
   return (
@@ -43,7 +43,7 @@ export default function Sidebar({ isOpen, onClose }) {
             <Heart size={14} fill="white" color="white" strokeWidth={2.5} />
           </div>
           <span className="font-black text-xl text-[var(--text-primary)] uppercase tracking-wider">
-            Our Love<span className="text-[var(--color-primary)]">Story</span>
+            I Love<span className="text-[var(--color-primary)]"> You</span>
           </span>
         </div>
         <button
@@ -91,7 +91,7 @@ export default function Sidebar({ isOpen, onClose }) {
       <div className="p-4 border-t-3 border-[var(--border)] bg-[var(--bg-primary)] space-y-3">
         {user && (
           <div className="text-xs font-bold text-[var(--text-secondary)] uppercase truncate">
-            Our Key: <span className="text-[var(--text-primary)] select-all">/u/{user.inviteToken}</span>
+            Invite Token: <span className="text-[var(--text-primary)] select-all">/u/{user.inviteToken}</span>
           </div>
         )}
         <button
@@ -99,7 +99,7 @@ export default function Sidebar({ isOpen, onClose }) {
           className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[var(--color-primary)] text-[#FFF] font-black border-2 border-[var(--border)] rounded-full shadow-[3px_3px_0px_0px_var(--shadow-color)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_var(--shadow-color)] active:translate-x-[3px] active:translate-y-[3px] active:shadow-[0px_0px_0px_0px_var(--shadow-color)] transition-all cursor-pointer text-xs uppercase"
         >
           <LogOut size={12} strokeWidth={2.5} />
-          Lock Memories
+          Lock kore de abar
         </button>
       </div>
     </aside>

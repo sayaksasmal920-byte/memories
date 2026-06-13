@@ -120,6 +120,28 @@ export function AuthProvider({ children }) {
     return res;
   };
 
+  const downloadFile = async (url, title) => {
+    try {
+      const downloadName = title || "memory";
+      const proxyUrl = `/api/media/download-file?url=${encodeURIComponent(url)}&name=${encodeURIComponent(downloadName)}`;
+      const res = await apiCall(proxyUrl);
+      if (!res.ok) throw new Error("Proxy download error");
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = objectUrl;
+      const extension = url.split(".").pop().split("?")[0] || "jpg";
+      a.download = `${downloadName}.${extension}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(objectUrl);
+    } catch (err) {
+      console.error("Download failed:", err);
+      window.open(url, "_blank");
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -130,6 +152,7 @@ export function AuthProvider({ children }) {
         logout,
         changePassword,
         apiCall,
+        downloadFile,
         isAuthenticated: !!user && !user.mustChangePassword,
         mustChangePassword: !!user && user.mustChangePassword,
       }}
