@@ -13,10 +13,54 @@ export default function Videos() {
   const [selectMode, setSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [downloadingZip, setDownloadingZip] = useState(false);
+  const [downloadingIndividually, setDownloadingIndividually] = useState(false);
 
   useEffect(() => {
     fetchVideos();
   }, []);
+
+  const downloadFile = async (url, title) => {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = objectUrl;
+      const extension = url.split(".").pop().split("?")[0] || "mp4";
+      a.download = `${title || "memory"}.${extension}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(objectUrl);
+    } catch (err) {
+      console.error("Download failed:", err);
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.download = title || "memory";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+  };
+
+  const handleDownloadIndividually = async () => {
+    if (selectedIds.size === 0) return;
+    setDownloadingIndividually(true);
+    try {
+      const selectedVideos = videos.filter(v => selectedIds.has(v._id || v.id));
+      for (const video of selectedVideos) {
+        await downloadFile(video.fileUrl, video.title || video.fileName);
+        await new Promise(resolve => setTimeout(resolve, 600));
+      }
+      setSelectedIds(new Set());
+      setSelectMode(false);
+    } catch (err) {
+      console.error("Individual sequential download failed:", err);
+    } finally {
+      setDownloadingIndividually(false);
+    }
+  };
 
   const fetchVideos = async () => {
     try {
@@ -230,6 +274,20 @@ export default function Videos() {
                         <span className="absolute top-2 right-2 bg-[var(--color-secondary)] border border-[var(--border)] text-[7px] font-black tracking-widest uppercase py-0.5 px-2 rounded shadow-[1px_1px_0px_0px_var(--shadow-color)] text-[var(--text-primary)]">
                           Clip
                         </span>
+
+                        {!selectMode && (
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              downloadFile(video.fileUrl, video.title || video.fileName);
+                            }}
+                            className="absolute bottom-2 right-2 bg-white/95 text-[var(--text-primary)] hover:bg-[var(--color-primary)] hover:text-white border border-[var(--border)] rounded-full p-1.5 shadow-[1.5px_1.5px_0px_0px_var(--shadow-color)] z-10 cursor-pointer transition-all active:translate-x-[0.5px] active:translate-y-[0.5px]"
+                            title="Download video"
+                          >
+                            <Download size={12} strokeWidth={2.5} />
+                          </button>
+                        )}
                       </div>
 
                       {/* Select Circle Overlays */}
@@ -304,6 +362,14 @@ export default function Videos() {
               className="btn-primary text-[10px] uppercase py-1.5 px-4 shadow-[2px_2px_0px_0px_var(--shadow-color)] cursor-pointer"
             >
               {downloadingZip ? "Compiling..." : "Download ZIP Bundle"}
+              <Download size={10} strokeWidth={2.5} />
+            </button>
+            <button
+              onClick={handleDownloadIndividually}
+              disabled={selectedIds.size === 0 || downloadingIndividually}
+              className="btn-primary bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-[10px] uppercase py-1.5 px-4 shadow-[2px_2px_0px_0px_var(--shadow-color)] cursor-pointer"
+            >
+              {downloadingIndividually ? "Downloading..." : "Download Individually"}
               <Download size={10} strokeWidth={2.5} />
             </button>
           </div>

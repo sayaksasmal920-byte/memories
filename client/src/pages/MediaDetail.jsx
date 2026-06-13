@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Heart, Trash2, Edit2, Check, ArrowLeft, MessageSquare, Tag, PlusCircle, Link as LinkIcon, Eye, Calendar, Sparkles } from "lucide-react";
+import { Heart, Trash2, Edit2, Check, ArrowLeft, MessageSquare, Tag, PlusCircle, Link as LinkIcon, Eye, Calendar, Sparkles, Download } from "lucide-react";
 
 export default function MediaDetail() {
   const { id } = useParams();
@@ -202,6 +202,31 @@ export default function MediaDetail() {
     }
   };
 
+  const handleDownload = async () => {
+    try {
+      const res = await fetch(media.fileUrl);
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = objectUrl;
+      const extension = media.fileUrl.split(".").pop().split("?")[0] || (media.mediaType === "video" ? "mp4" : "jpg");
+      a.download = `${media.title || "memory"}.${extension}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(objectUrl);
+    } catch (err) {
+      console.error("Download failed:", err);
+      const a = document.createElement("a");
+      a.href = media.fileUrl;
+      a.target = "_blank";
+      a.download = media.title || media.fileName || "memory";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+  };
+
   const addTag = (tag) => {
     const clean = tag.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
     if (clean && !editTags.includes(clean)) {
@@ -282,6 +307,15 @@ export default function MediaDetail() {
           >
             <Heart size={14} fill={media.favorite ? "#1E293B" : "none"} strokeWidth={2.5} />
             {media.favorite ? "Favorited" : "Star Memory"}
+          </button>
+
+          {/* Download button */}
+          <button
+            onClick={handleDownload}
+            className="btn-primary bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white flex items-center gap-1.5 text-xs uppercase py-2 px-4 shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] cursor-pointer"
+          >
+            <Download size={14} strokeWidth={2.5} />
+            Download
           </button>
 
           {/* Delete button */}

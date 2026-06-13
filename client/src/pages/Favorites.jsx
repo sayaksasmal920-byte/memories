@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Heart, Image, Film, Smile } from "lucide-react";
+import { Heart, Image, Film, Smile, Download } from "lucide-react";
 
 export default function Favorites() {
   const { apiCall } = useAuth();
@@ -23,6 +23,31 @@ export default function Favorites() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const downloadFile = async (url, title) => {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = objectUrl;
+      const extension = url.split(".").pop().split("?")[0] || "jpg";
+      a.download = `${title || "memory"}.${extension}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(objectUrl);
+    } catch (err) {
+      console.error("Download failed:", err);
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.download = title || "memory";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
     }
   };
 
@@ -85,6 +110,18 @@ export default function Favorites() {
                 <span className="absolute top-2 left-2 bg-[var(--color-primary)] text-white border border-[var(--border)] text-[8px] font-black uppercase px-2 py-0.5 rounded shadow-[1px_1px_0px_0px_var(--shadow-color)] flex items-center gap-1">
                   💖 Loved
                 </span>
+
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    downloadFile(item.fileUrl, item.title || item.fileName);
+                  }}
+                  className="absolute bottom-2 right-2 bg-white/95 text-[var(--text-primary)] hover:bg-[var(--color-primary)] hover:text-white border border-[var(--border)] rounded-full p-1.5 shadow-[1.5px_1.5px_0px_0px_var(--shadow-color)] z-10 cursor-pointer transition-all active:translate-x-[0.5px] active:translate-y-[0.5px]"
+                  title="Download memory"
+                >
+                  <Download size={12} strokeWidth={2.5} />
+                </button>
               </div>
 
               <div className="p-3 flex-1 flex flex-col justify-between space-y-2">
