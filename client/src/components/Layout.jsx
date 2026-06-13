@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Sidebar from "./Sidebar";
-import { Sparkles, Heart } from "lucide-react";
+import { Sparkles, Heart, Menu } from "lucide-react";
 
 export default function Layout({ children }) {
   const { user, loading, mustChangePassword } = useAuth();
   const location = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Show a premium Memphis dot-grid loading spinner while checking auth
   if (loading) {
@@ -40,14 +41,31 @@ export default function Layout({ children }) {
   return (
     <div className="flex min-h-screen bg-[var(--bg-primary)] dot-grid text-[var(--text-primary)]">
       {/* Sidebar navigation */}
-      <Sidebar />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
+      {/* Mobile Sidebar Overlay Backdrop */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
       {/* Main Panel */}
       <main className="flex-1 overflow-x-hidden flex flex-col min-h-screen">
         {/* Top Header Row */}
-        <header className="bg-[var(--bg-card)] border-b-3 border-[var(--border)] h-16 px-8 flex items-center justify-between sticky top-0 z-40">
-          <div className="font-display font-black text-base uppercase tracking-wider text-[var(--text-primary)]">
-            💖 Our Memories // Connected
+        <header className="bg-[var(--bg-card)] border-b-3 border-[var(--border)] h-16 px-4 md:px-8 flex items-center justify-between sticky top-0 z-40">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="md:hidden p-2 rounded-lg border-2 border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] active:translate-x-[1px] active:translate-y-[1px] transition-all cursor-pointer"
+              aria-label="Open sidebar"
+            >
+              <Menu size={20} strokeWidth={2.5} />
+            </button>
+            <div className="font-display font-black text-sm md:text-base uppercase tracking-wider text-[var(--text-primary)]">
+              💖 Our Memories // Connected
+            </div>
           </div>
           <div className="flex items-center gap-3">
             <div className="badge badge-primary font-black shadow-[1.5px_1.5px_0px_0px_var(--shadow-color)] text-[10px]">
@@ -57,7 +75,7 @@ export default function Layout({ children }) {
         </header>
 
         {/* Dynamic content scroll frame */}
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-4 md:p-8">
           <div className="max-w-6xl mx-auto space-y-8">
             {children}
           </div>

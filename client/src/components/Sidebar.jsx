@@ -12,10 +12,11 @@ import {
   Settings,
   Key,
   LogOut,
-  Sparkles
+  Sparkles,
+  X
 } from "lucide-react";
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
   const { logout, user } = useAuth();
   const location = useLocation();
 
@@ -30,17 +31,28 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="w-64 flex-shrink-0 bg-[var(--bg-card)] border-r-3 border-[var(--border)] flex flex-col h-screen sticky top-0"
+      className={`w-64 flex-shrink-0 bg-[var(--bg-card)] border-r-3 border-[var(--border)] flex flex-col h-screen fixed md:sticky top-0 left-0 z-50 transform transition-transform duration-300 md:transform-none md:translate-x-0 ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      }`}
       style={{ fontFamily: "var(--font-display)" }}
     >
       {/* Sidebar Header Brand */}
-      <div className="p-6 border-b-3 border-[var(--border)] flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-[var(--color-secondary)] border-2 border-[var(--border)] flex items-center justify-center shadow-[2px_2px_0px_0px_var(--shadow-color)] heartbeat">
-          <Heart size={14} fill="white" color="white" strokeWidth={2.5} />
+      <div className="p-6 border-b-3 border-[var(--border)] flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-[var(--color-secondary)] border-2 border-[var(--border)] flex items-center justify-center shadow-[2px_2px_0px_0px_var(--shadow-color)] heartbeat">
+            <Heart size={14} fill="white" color="white" strokeWidth={2.5} />
+          </div>
+          <span className="font-black text-xl text-[var(--text-primary)] uppercase tracking-wider">
+            Our Love<span className="text-[var(--color-primary)]">Story</span>
+          </span>
         </div>
-        <span className="font-black text-xl text-[var(--text-primary)] uppercase tracking-wider">
-          Our Love<span className="text-[var(--color-primary)]">Story</span>
-        </span>
+        <button
+          onClick={onClose}
+          className="md:hidden p-1.5 rounded-lg border-2 border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] active:translate-x-[1px] active:translate-y-[1px] transition-all cursor-pointer"
+          aria-label="Close sidebar"
+        >
+          <X size={16} strokeWidth={2.5} />
+        </button>
       </div>
 
       {/* Navigation List */}
@@ -52,6 +64,7 @@ export default function Sidebar() {
             <Link
               key={item.name}
               to={item.path}
+              onClick={onClose}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg border-2 font-bold transition-all duration-200 ${
                 isActive
                   ? "bg-[var(--color-primary)] text-white border-[var(--border)] translate-x-1 shadow-[3px_3px_0px_0px_var(--shadow-color)]"
