@@ -27,6 +27,9 @@ export default function MediaDetail() {
   // Comment state
   const [commentText, setCommentText] = useState("");
 
+  // Delete Confirmation Modal state
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   // Add Relation state
   const [relationSelectId, setRelationSelectId] = useState("");
 
@@ -188,13 +191,13 @@ export default function MediaDetail() {
     }
   };
 
-  const handleDeleteMedia = async () => {
-    if (!window.confirm("CAUTION: This will delete this memory permanently. Proceed?")) return;
+  const handleConfirmDelete = async () => {
     try {
       const res = await apiCall(`/api/media/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
+        setShowDeleteModal(false);
         navigate("/dashboard");
       }
     } catch (err) {
@@ -204,26 +207,23 @@ export default function MediaDetail() {
 
   const handleDownload = async () => {
     try {
-      const res = await fetch(media.fileUrl);
+      const downloadName = media.title || "memory";
+      const proxyUrl = `/api/media/download-file?url=${encodeURIComponent(media.fileUrl)}&name=${encodeURIComponent(downloadName)}`;
+      const res = await apiCall(proxyUrl);
+      if (!res.ok) throw new Error("Proxy download error");
       const blob = await res.blob();
       const objectUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = objectUrl;
       const extension = media.fileUrl.split(".").pop().split("?")[0] || (media.mediaType === "video" ? "mp4" : "jpg");
-      a.download = `${media.title || "memory"}.${extension}`;
+      a.download = `${downloadName}.${extension}`;
       document.body.appendChild(a);
       a.click();
       a.remove();
       URL.revokeObjectURL(objectUrl);
     } catch (err) {
-      console.error("Download failed:", err);
-      const a = document.createElement("a");
-      a.href = media.fileUrl;
-      a.target = "_blank";
-      a.download = media.title || media.fileName || "memory";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      console.error("Download failed, using direct fallback:", err);
+      window.open(media.fileUrl, "_blank");
     }
   };
 
@@ -282,26 +282,40 @@ export default function MediaDetail() {
   const currentCollection = collections.find(c => c._id === media.collectionId || c.id === media.collectionId);
 
   return (
-    <div className="space-y-8 animate-fade-in text-[#1E293B]">
+    <>
+      <div className="space-y-8 animate-fade-in text-[#1E293B]">
       {/* Return & Action header bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
+      <div className="space-y-4">
+        {/* Top Row: Back button + Single Delete Icon-only (extreme right) */}
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigate(-1)}
+              className="btn-ghost p-2 rounded-full cursor-pointer shadow-[2px_2px_0px_0px_var(--shadow-color)]"
+            >
+              <ArrowLeft size={16} strokeWidth={2.5} />
+            </button>
+            <span className="font-display font-black text-xs uppercase text-[var(--text-secondary)]">
+              Back to Timeline
+            </span>
+          </div>
+
+          {/* Delete button (icon-only, always on top row far right) */}
           <button
-            onClick={() => navigate(-1)}
-            className="btn-ghost p-2 rounded-full cursor-pointer shadow-[2px_2px_0px_0px_rgba(30,41,59,1)]"
+            onClick={() => setShowDeleteModal(true)}
+            className="btn-primary bg-[#F87171] hover:bg-[#EF4444] text-white p-2.5 rounded-lg shadow-[2px_2px_0px_0px_var(--shadow-color)] cursor-pointer flex items-center justify-center"
+            title="Delete memory"
           >
-            <ArrowLeft size={16} strokeWidth={2.5} />
+            <Trash2 size={16} strokeWidth={2.5} />
           </button>
-          <span className="font-display font-black text-xs uppercase text-[#5C6F84]">
-            Back to Timeline
-          </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Bottom Row: Star & Download buttons */}
+        <div className="flex flex-wrap items-center gap-2">
           {/* Favorite Toggle button */}
           <button
             onClick={handleFavoriteToggle}
-            className={`btn-ghost flex items-center gap-1.5 text-xs uppercase py-2 px-4 shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] cursor-pointer ${
+            className={`btn-ghost flex items-center gap-1.5 text-xs uppercase py-2 px-4 shadow-[2px_2px_0px_0px_var(--shadow-color)] cursor-pointer ${
               media.favorite ? "bg-[#FBBF24]" : ""
             }`}
           >
@@ -312,19 +326,10 @@ export default function MediaDetail() {
           {/* Download button */}
           <button
             onClick={handleDownload}
-            className="btn-primary bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white flex items-center gap-1.5 text-xs uppercase py-2 px-4 shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] cursor-pointer"
+            className="btn-primary bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white flex items-center gap-1.5 text-xs uppercase py-2 px-4 shadow-[2px_2px_0px_0px_var(--shadow-color)] cursor-pointer"
           >
             <Download size={14} strokeWidth={2.5} />
             Download
-          </button>
-
-          {/* Delete button */}
-          <button
-            onClick={handleDeleteMedia}
-            className="btn-primary bg-[#F87171] hover:bg-[#EF4444] text-white flex items-center gap-1.5 text-xs uppercase py-2 px-4 shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] cursor-pointer"
-          >
-            <Trash2 size={14} strokeWidth={2.5} />
-            Delete
           </button>
         </div>
       </div>
@@ -684,5 +689,43 @@ export default function MediaDetail() {
         </div>
       )}
     </div>
+
+    {/* Custom Delete Confirmation Modal */}
+    {showDeleteModal && (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in">
+        <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 max-w-sm w-full text-center shadow-[6px_6px_0px_0px_var(--shadow-color)] space-y-6">
+          <div className="w-12 h-12 rounded-full bg-[#FFEAEF] border-2 border-[var(--border)] flex items-center justify-center mx-auto text-[var(--color-primary)] heartbeat">
+            <Heart size={20} fill="var(--color-primary)" strokeWidth={2.5} />
+          </div>
+          
+          <div className="space-y-2">
+            <h3 className="font-display font-black text-lg uppercase tracking-wider text-[var(--text-primary)]">
+              Let go of this memory?
+            </h3>
+            <p className="text-xs font-bold text-[var(--text-secondary)] leading-relaxed uppercase">
+              Are you sure you want to erase this special moment from our love story forever? This cannot be undone.
+            </p>
+          </div>
+
+          <div className="flex gap-3 pt-2">
+            <button
+              type="button"
+              onClick={() => setShowDeleteModal(false)}
+              className="flex-1 btn-ghost text-xs uppercase py-2.5 shadow-[2px_2px_0px_0px_var(--shadow-color)] cursor-pointer"
+            >
+              Keep it 💖
+            </button>
+            <button
+              type="button"
+              onClick={handleConfirmDelete}
+              className="flex-1 btn-primary bg-[#F87171] hover:bg-[#EF4444] text-[#FFF] text-xs uppercase py-2.5 shadow-[2px_2px_0px_0px_var(--shadow-color)] cursor-pointer"
+            >
+              Delete Forever
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
   );
 }

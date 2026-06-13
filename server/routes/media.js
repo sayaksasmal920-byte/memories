@@ -449,6 +449,59 @@ router.post("/download-bundle", verifyUserToken, async (req, res) => {
   }
 });
 
+// 10. Proxy download of a single file to bypass CORS and force save-to-disk
+router.get("/download-file", verifyUserToken, async (req, res) => {
+  const { url, name } = req.query;
+  if (!url) {
+    return res.status(400).json({ error: "Provide a file url to download." });
+  }
+
+  try {
+    const fs = require("fs");
+    const path = require("path");
+
+    const isLocal = url.startsWith("/uploads/");
+    let extension = "jpg";
+    let baseFileName = "memory";
+
+    try {
+      const parsedUrl = new URL(url.startsWith("/") ? `http://localhost${url}` : url);
+      const pathname = parsedUrl.pathname;
+      extension = pathname.split(".").pop().split("?")[0] || "jpg";
+      baseFileName = path.basename(pathname, `.${extension}`) || "memory";
+    } catch (_) {
+      // Fallback
+    }
+
+    const downloadName = name ? `${name}.${extension}` : `${baseFileName}.${extension}`;
+
+    if (isLocal) {
+      const localPath = path.join(__dirname, "../..", url);
+      if (fs.existsSync(localPath)) {
+        res.setHeader("Content-Disposition", `attachment; filename="${encodeURIComponent(downloadName)}"`);
+        return res.sendFile(localPath);
+      } else {
+        return res.status(404).json({ error: "File not found locally." });
+      }
+    } else {
+      const fetch = (...args) => import("node-fetch").then(({default: fetch}) => fetch(...args));
+      const response = await fetch(url);
+      if (!response.ok) {
+        return res.status(response.status).json({ error: "Failed to retrieve remote resource." });
+      }
+      
+      const contentType = response.headers.get("content-type") || "application/octet-stream";
+      res.setHeader("Content-Type", contentType);
+      res.setHeader("Content-Disposition", `attachment; filename="${encodeURIComponent(downloadName)}"`);
+      
+      response.body.pipe(res);
+    }
+  } catch (err) {
+    console.error("Proxy download error:", err);
+    return res.status(500).json({ error: "Failed to download file via proxy." });
+  }
+});
+
 // 9. Manage Relationships Link
 router.post("/:id/relate", verifyUserToken, async (req, res) => {
   const { id } = req.params;

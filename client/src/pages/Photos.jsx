@@ -22,26 +22,23 @@ export default function Photos() {
 
   const downloadFile = async (url, title) => {
     try {
-      const res = await fetch(url);
+      const downloadName = title || "memory";
+      const proxyUrl = `/api/media/download-file?url=${encodeURIComponent(url)}&name=${encodeURIComponent(downloadName)}`;
+      const res = await apiCall(proxyUrl);
+      if (!res.ok) throw new Error("Proxy download error");
       const blob = await res.blob();
       const objectUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = objectUrl;
       const extension = url.split(".").pop().split("?")[0] || "jpg";
-      a.download = `${title || "memory"}.${extension}`;
+      a.download = `${downloadName}.${extension}`;
       document.body.appendChild(a);
       a.click();
       a.remove();
       URL.revokeObjectURL(objectUrl);
     } catch (err) {
       console.error("Download failed:", err);
-      const a = document.createElement("a");
-      a.href = url;
-      a.target = "_blank";
-      a.download = title || "memory";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      window.open(url, "_blank");
     }
   };
 
