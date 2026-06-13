@@ -28,7 +28,7 @@ async function verifyUserToken(req, res, next) {
 // Verify admin master secret
 function verifyAdminSecret(req, res, next) {
   const adminSecret = req.headers["x-admin-secret"] || req.query.adminSecret;
-  const configuredSecret = process.env.ADMIN_SECRET || "admin123";
+  const configuredSecret = process.env.ADMIN_SECRET || "bum_diggy_diggy_bum_bum";
 
   if (!adminSecret || adminSecret !== configuredSecret) {
     return res.status(403).json({ error: "Forbidden: Invalid administrator secret credential." });

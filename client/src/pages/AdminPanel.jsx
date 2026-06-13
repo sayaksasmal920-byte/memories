@@ -130,7 +130,7 @@ export default function AdminPanel() {
   const handleResetToDefault = async () => {
     if (!selectedUserId || !currentPassword) return;
     const selectedUser = users.find(u => u.id === selectedUserId);
-    if (!window.confirm(`Are you sure you want to reset the password for token "${selectedUser?.inviteToken}" back to the default "memory123"?`)) {
+    if (!window.confirm(`Are you sure you want to reset the password for token "${selectedUser?.inviteToken}" back to the default "modi_modi"?`)) {
       return;
     }
 
@@ -147,14 +147,14 @@ export default function AdminPanel() {
         body: JSON.stringify({
           userId: selectedUserId,
           currentPassword,
-          defaultPassword: "memory123",
+          defaultPassword: "modi_modi",
           mustChangePassword: true,
         }),
       });
 
       const data = await res.json();
       if (res.ok) {
-        setSuccess(`Password for invite token "${selectedUser?.inviteToken}" has been reset to "memory123".`);
+        setSuccess(`Password for invite token "${selectedUser?.inviteToken}" has been reset to "modi_modi".`);
         // Lock page again
         setIsUnlocked(false);
         setCurrentPassword("");
@@ -424,7 +424,7 @@ export default function AdminPanel() {
                       Reset to Default
                     </h4>
                     <p className="text-[10.5px] text-[#5C6F84] leading-relaxed mb-4">
-                      Reverts the password of this invite token back to the standard default password: <code className="bg-white px-1.5 py-0.5 rounded border border-[#1E293B] font-bold text-[#1E293B]">memory123</code>.
+                      Reverts the password of this invite token back to the standard default password: <code className="bg-white px-1.5 py-0.5 rounded border border-[#1E293B] font-bold text-[#1E293B]">modi_modi</code>.
                     </p>
                   </div>
                   <button

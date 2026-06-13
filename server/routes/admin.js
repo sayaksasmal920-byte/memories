@@ -16,7 +16,7 @@ function generateInviteToken(length = 6) {
 
 // 1. Create a new user with invite link & default password
 router.post("/users", verifyAdminSecret, async (req, res) => {
-  const { defaultPassword = "memory123" } = req.body;
+  const { defaultPassword = "modi_modi" } = req.body;
 
   try {
     // Generate a unique invite token
@@ -104,7 +104,7 @@ router.post("/users/verify", async (req, res) => {
 
 // 4. Reset a user's password and flag it for mandatory change (or directly change it)
 router.post("/users/reset", async (req, res) => {
-  const { userId, currentPassword, newPassword, defaultPassword = "memory123", mustChangePassword } = req.body;
+  const { userId, currentPassword, newPassword, defaultPassword = "modi_modi", mustChangePassword } = req.body;
 
   if (!userId || !currentPassword) {
     return res.status(400).json({ error: "User ID and current password are required." });
