@@ -72,28 +72,6 @@ export function AuthProvider({ children }) {
       throw err;
     }
   };
-
-  // Change password handler
-  const changePassword = async (newPassword) => {
-    const res = await fetch(`${API_BASE}/api/auth/change-password`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ password: newPassword }),
-    });
-
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.error || "Failed to update password");
-    }
-
-    // Refresh user state
-    setUser(prev => prev ? { ...prev, mustChangePassword: false } : null);
-    return data;
-  };
-
   // Logout handler
   const logout = () => {
     localStorage.removeItem("token");
@@ -150,10 +128,9 @@ export function AuthProvider({ children }) {
         loading,
         login,
         logout,
-        changePassword,
         apiCall,
         downloadFile,
-        isAuthenticated: !!user && !user.mustChangePassword,
+        isAuthenticated: !!user,
         mustChangePassword: !!user && user.mustChangePassword,
       }}
     >

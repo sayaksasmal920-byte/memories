@@ -28,11 +28,6 @@ export default function Layout({ children }) {
     );
   }
 
-  // Redirect to Change Password page if database has mustChangePassword = true
-  if (user && mustChangePassword && location.pathname !== "/change-password") {
-    return <Navigate to="/change-password" replace />;
-  }
-
   // Protect dashboard routes
   if (!user) {
     return <Navigate to="/" replace />;

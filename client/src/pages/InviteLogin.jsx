@@ -14,7 +14,7 @@ export default function InviteLogin() {
 
   // If already logged in, skip straight to dashboard
   useEffect(() => {
-    if (user && !user.mustChangePassword) {
+    if (user) {
       navigate("/dashboard");
     }
   }, [user, navigate]);
@@ -30,12 +30,8 @@ export default function InviteLogin() {
     setLoading(true);
 
     try {
-      const loginRes = await login(token, password);
-      if (loginRes.mustChangePassword) {
-        navigate("/change-password");
-      } else {
-        navigate("/dashboard");
-      }
+      await login(token, password);
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Failed to log in. Please check your password.");
     } finally {

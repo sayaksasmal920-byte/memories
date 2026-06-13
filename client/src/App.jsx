@@ -6,7 +6,7 @@ import Layout from "./components/Layout";
 // Pages
 import LandingPage from "./pages/LandingPage";
 import InviteLogin from "./pages/InviteLogin";
-import ChangePassword from "./pages/ChangePassword";
+
 import Dashboard from "./pages/Dashboard";
 import Photos from "./pages/Photos";
 import Videos from "./pages/Videos";
@@ -37,8 +37,6 @@ export default function App() {
           {/* Public invite login access page */}
           <Route path="/u/:token" element={<InviteLogin />} />
 
-          {/* Forced password update flow */}
-          <Route path="/change-password" element={<ChangePassword />} />
 
           {/* Dedicated administrator panel — signed-in users only */}
           <Route
