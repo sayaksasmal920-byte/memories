@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Video, Upload, Download, CheckCircle, Circle, Play, HelpCircle } from "lucide-react";
+import { Video, Upload, Download, CheckCircle, Circle, Play, Heart } from "lucide-react";
 
 export default function Videos() {
   const { apiCall } = useAuth();
@@ -106,7 +106,7 @@ export default function Videos() {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "memoryvault-videos.zip";
+        a.download = "our-love-videos.zip";
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -137,19 +137,19 @@ export default function Videos() {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in text-[var(--text-primary)]">
       {/* Header Panel */}
-      <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-6 shadow-[5px_5px_0px_0px_rgba(30,41,59,1)] flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#8B5CF6] border-2 border-[#1E293B] flex items-center justify-center shadow-[2.5px_2.5px_0px_0px_rgba(30,41,59,1)]">
+          <div className="w-10 h-10 rounded-full bg-[var(--color-primary)] border-2 border-[var(--border)] flex items-center justify-center shadow-[2.5px_2.5px_0px_0px_var(--shadow-color)] heartbeat">
             <Video size={18} color="white" strokeWidth={2.5} />
           </div>
           <div>
             <h2 className="font-display font-black text-xl uppercase tracking-wider leading-tight">
-              Video Archive
+              Our Videos
             </h2>
-            <p className="text-[10px] font-extrabold uppercase text-[#5C6F84]">
-              Timeline video records • {videos.length} videos
+            <p className="text-[10px] font-extrabold uppercase text-[var(--text-secondary)]">
+              Our Clips & Laughs • {videos.length} videos
             </p>
           </div>
         </div>
@@ -160,15 +160,15 @@ export default function Videos() {
               setSelectMode(!selectMode);
               setSelectedIds(new Set());
             }}
-            className={`btn-ghost text-xs uppercase ${selectMode ? "bg-[#FBBF24] border-[#1E293B]" : ""}`}
+            className={`btn-ghost text-xs uppercase ${selectMode ? "bg-[var(--color-secondary)] text-[var(--text-primary)]" : ""}`}
             style={{ padding: "0.5rem 1.25rem" }}
           >
-            {selectMode ? "Cancel Select" : "Select Bundle"}
+            {selectMode ? "Cancel Select" : "Select Clip Collection"}
           </button>
           
           <Link
             to="/videos/upload"
-            className="btn-primary text-xs uppercase shadow-[2.5px_2.5px_0px_0px_rgba(30,41,59,1)]"
+            className="btn-primary text-xs uppercase shadow-[2.5px_2.5px_0px_0px_var(--shadow-color)]"
             style={{ padding: "0.5rem 1.25rem" }}
           >
             <Upload size={14} strokeWidth={2.5} />
@@ -178,12 +178,12 @@ export default function Videos() {
       </div>
 
       {videos.length === 0 ? (
-        <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-12 text-center shadow-[5px_5px_0px_0px_rgba(30,41,59,1)]">
-          <Video size={48} className="mx-auto text-[#94A3B8] mb-4" />
-          <h3 className="font-display font-black text-base uppercase text-[#1E293B] mb-2">No videos logged</h3>
-          <p className="text-xs font-bold text-[#5C6F84] uppercase mb-6">Upload your first vintage memory video clip</p>
+        <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-12 text-center shadow-[5px_5px_0px_0px_var(--shadow-color)]">
+          <Video size={48} className="mx-auto text-[var(--text-muted)] mb-4" />
+          <h3 className="font-display font-black text-base uppercase text-[var(--text-primary)] mb-2">No videos logged yet</h3>
+          <p className="text-xs font-bold text-[var(--text-secondary)] uppercase mb-6">Let's capture and upload our first love clip together!</p>
           <Link to="/videos/upload" className="btn-primary text-xs uppercase">
-            Upload Video Node
+            Upload Video
           </Link>
         </div>
       ) : (
@@ -191,10 +191,10 @@ export default function Videos() {
           {groupedTimeline.map((group, idx) => (
             <div key={`${group.year}-${group.month}-${idx}`} className="space-y-4">
               <div className="flex items-center gap-4">
-                <h3 className="font-display font-black text-lg uppercase tracking-wider text-[#1E293B] whitespace-nowrap bg-[#FFFDF9] border-2 border-[#1E293B] px-3 py-1 rounded shadow-[2px_2px_0px_0px_rgba(30,41,59,1)]">
+                <h3 className="font-display font-black text-lg uppercase tracking-wider text-[var(--text-primary)] whitespace-nowrap bg-[var(--bg-card)] border-2 border-[var(--border)] px-3 py-1 rounded shadow-[2px_2px_0px_0px_var(--shadow-color)]">
                   {group.month} {group.year}
                 </h3>
-                <div className="flex-1 border-t-3 border-[#1E293B]"></div>
+                <div className="flex-1 border-t-3 border-[var(--border)]"></div>
               </div>
 
               {/* Grid of video thumbnails */}
@@ -205,14 +205,14 @@ export default function Videos() {
                     <div
                       key={video._id || video.id}
                       onClick={() => selectMode && handleSelectToggle(video._id || video.id)}
-                      className={`relative border-2 border-[#1E293B] rounded-lg overflow-hidden cursor-pointer shadow-[3px_3px_0px_0px_rgba(30,41,59,1)] transition-all ${
+                      className={`relative border-2 border-[var(--border)] rounded-lg overflow-hidden cursor-pointer shadow-[3px_3px_0px_0px_var(--shadow-color)] transition-all ${
                         selectMode 
-                          ? (isSelected ? "border-[#8B5CF6] scale-98 shadow-[1px_1px_0px_0px_rgba(139,92,246,1)]" : "opacity-80 hover:opacity-100") 
-                          : "hover:scale-102 hover:shadow-[4px_4px_0px_0px_rgba(139,92,246,1)]"
+                          ? (isSelected ? "border-[var(--color-primary)] scale-98 shadow-[1px_1px_0px_0px_var(--color-primary)]" : "opacity-80 hover:opacity-100") 
+                          : "hover:scale-102 hover:shadow-[4px_4px_0px_0px_var(--color-primary)]"
                       }`}
                     >
                       {/* Video Thumbnail cover block */}
-                      <div className="aspect-video bg-[#FAF3E0] relative flex items-center justify-center">
+                      <div className="aspect-video bg-[var(--bg-primary)] relative flex items-center justify-center">
                         <img
                           src={video.thumbnailUrl || video.fileUrl}
                           alt={video.title || video.fileName}
@@ -222,50 +222,50 @@ export default function Videos() {
                           }}
                         />
                         {/* Centered Play overlay */}
-                        <div className="absolute w-10 h-10 rounded-full bg-white bg-opacity-80 border-2 border-[#1E293B] flex items-center justify-center shadow-[1.5px_1.5px_0px_0px_rgba(30,41,59,1)]">
-                          <Play size={16} fill="#1E293B" color="#1E293B" className="ml-0.5" />
+                        <div className="absolute w-10 h-10 rounded-full bg-white bg-opacity-80 border-2 border-[var(--border)] flex items-center justify-center shadow-[1.5px_1.5px_0px_0px_var(--shadow-color)]">
+                          <Play size={16} fill="var(--text-primary)" color="var(--text-primary)" className="ml-0.5" />
                         </div>
 
                         {/* Top Category Badge */}
-                        <span className="absolute top-2 left-2 badge badge-cyan text-[7px] font-black py-0 px-1.5 shadow-[1px_1px_0px_0px_rgba(30,41,59,1)]">
-                          {video.views || 0} views
+                        <span className="absolute top-2 right-2 bg-[var(--color-secondary)] border border-[var(--border)] text-[7px] font-black tracking-widest uppercase py-0.5 px-2 rounded shadow-[1px_1px_0px_0px_var(--shadow-color)] text-[var(--text-primary)]">
+                          Clip
                         </span>
                       </div>
 
                       {/* Select Circle Overlays */}
                       {selectMode && (
-                        <div className="absolute top-2 right-2 bg-white rounded-full p-0.5 border border-[#1E293B] shadow">
+                        <div className="absolute top-2 right-2 bg-white rounded-full p-0.5 border border-[var(--border)] shadow">
                           {isSelected ? (
-                            <CheckCircle size={14} className="text-[#8B5CF6]" strokeWidth={3} />
+                            <CheckCircle size={14} className="text-[var(--color-primary)]" strokeWidth={3} />
                           ) : (
-                            <Circle size={14} className="text-[#94A3B8]" strokeWidth={2.5} />
+                            <Circle size={14} className="text-[var(--text-muted)]" strokeWidth={2.5} />
                           )}
                         </div>
                       )}
 
                       {/* Info footer */}
-                      <div className="p-3 bg-white border-t-2 border-[#1E293B] flex flex-col justify-between h-20">
+                      <div className="p-3 bg-[var(--bg-card)] border-t-2 border-[var(--border)] flex flex-col justify-between h-20">
                         <div className="truncate">
-                          <h4 className="font-display font-black text-xs uppercase text-[#1E293B] truncate leading-tight">
+                          <h4 className="font-display font-black text-xs uppercase text-[var(--text-primary)] truncate leading-tight">
                             {video.title || video.fileName}
                           </h4>
-                          <span className="text-[8px] font-bold text-[#5C6F84] uppercase">
+                          <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase">
                             {new Date(video.mediaDate).toLocaleDateString()}
                           </span>
                         </div>
                         {video.story ? (
-                          <p className="text-[9px] font-semibold text-[#5C6F84] truncate italic">
+                          <p className="text-[9px] font-semibold text-[var(--text-secondary)] truncate italic">
                             "{video.story}"
                           </p>
                         ) : (
-                          <span className="text-[8px] font-black text-[#EC4899] uppercase">No story context</span>
+                          <span className="text-[8px] font-black text-[var(--color-primary)] uppercase">No story context</span>
                         )}
                       </div>
 
                       {/* Starred indicator overlay */}
                       {video.favorite && (
-                        <div className="absolute top-2 right-2 bg-[#FBBF24] border border-[#1E293B] text-[8px] font-black uppercase px-1 rounded shadow-[1px_1px_0px_0px_rgba(30,41,59,1)]">
-                          ⭐ Fav
+                        <div className="absolute top-2 left-2 bg-[var(--color-primary)] text-white border border-[var(--border)] text-[8px] font-black uppercase px-2 py-0.5 rounded shadow-[1px_1px_0px_0px_var(--shadow-color)] flex items-center gap-1">
+                          Loved 💖
                         </div>
                       )}
 
@@ -287,9 +287,9 @@ export default function Videos() {
 
       {/* Floating Bundle Selector Panel */}
       {selectMode && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-4 shadow-[6px_6px_0px_0px_rgba(30,41,59,1)] flex items-center gap-4 z-50 animate-fade-in w-max">
-          <span className="text-xs font-black uppercase text-[#1E293B]">
-            Selected: <span className="text-[#8B5CF6]">{selectedIds.size}</span> / {videos.length}
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-4 shadow-[6px_6px_0px_0px_var(--shadow-color)] flex items-center gap-4 z-50 animate-fade-in w-max">
+          <span className="text-xs font-black uppercase text-[var(--text-primary)]">
+            Selected: <span className="text-[var(--color-primary)]">{selectedIds.size}</span> / {videos.length}
           </span>
           <div className="flex gap-2">
             <button
@@ -301,7 +301,7 @@ export default function Videos() {
             <button
               onClick={handleDownloadZip}
               disabled={selectedIds.size === 0 || downloadingZip}
-              className="btn-primary text-[10px] uppercase py-1.5 px-4 shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] cursor-pointer"
+              className="btn-primary text-[10px] uppercase py-1.5 px-4 shadow-[2px_2px_0px_0px_var(--shadow-color)] cursor-pointer"
             >
               {downloadingZip ? "Compiling..." : "Download ZIP Bundle"}
               <Download size={10} strokeWidth={2.5} />

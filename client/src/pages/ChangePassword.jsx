@@ -41,20 +41,20 @@ export default function ChangePassword() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF3E0] dot-grid flex flex-col items-center justify-center p-6 text-[#1E293B]">
-      <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-2xl p-8 max-w-md w-full shadow-[8px_8px_0px_0px_rgba(30,41,59,1)]">
+    <div className="min-h-screen bg-[var(--bg-primary)] dot-grid flex flex-col items-center justify-center p-6 text-[var(--text-primary)]">
+      <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-2xl p-8 max-w-md w-full shadow-[8px_8px_0px_0px_var(--shadow-color)]">
         
         {/* Animated Key Header */}
         <div className="flex justify-center mb-6">
-          <div className="w-12 h-12 rounded-full bg-[#FBBF24] border-2 border-[#1E293B] flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(30,41,59,1)]">
-            <KeyRound size={20} className={loading ? "animate-spin" : ""} color="#1E293B" strokeWidth={2.5} />
+          <div className="w-12 h-12 rounded-full bg-[var(--color-primary)] border-2 border-[var(--border)] flex items-center justify-center shadow-[3px_3px_0px_0px_var(--shadow-color)]">
+            <KeyRound size={20} className={loading ? "animate-spin" : ""} color="white" strokeWidth={2.5} />
           </div>
         </div>
 
         <h2 className="font-display font-black text-xl uppercase tracking-wider text-center mb-2">
           Setup Secure Password
         </h2>
-        <p className="text-xs font-bold text-center text-[#EC4899] uppercase tracking-wide mb-6">
+        <p className="text-xs font-bold text-center text-[var(--color-primary)] uppercase tracking-wide mb-6">
           🛡️ Action Required: Initial security reset
         </p>
 
@@ -67,12 +67,12 @@ export default function ChangePassword() {
         {success ? (
           <div className="bg-[#34D399] bg-opacity-20 border-2 border-[#34D399] text-[#047857] rounded-lg p-4 text-center font-bold uppercase tracking-wider mb-6 flex flex-col items-center gap-2">
             <Check size={28} className="text-[#34D399] animate-bounce" strokeWidth={3} />
-            <span>Vault Secured! Redirecting...</span>
+            <span>Memories Secured! Redirecting...</span>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-1">
-              <label className="text-xs font-black uppercase text-[#1E293B] block">
+              <label className="text-xs font-black uppercase text-[var(--text-primary)] block">
                 New Secure Password
               </label>
               <input
@@ -87,7 +87,7 @@ export default function ChangePassword() {
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-black uppercase text-[#1E293B] block">
+              <label className="text-xs font-black uppercase text-[var(--text-primary)] block">
                 Confirm Password
               </label>
               <input
@@ -103,10 +103,10 @@ export default function ChangePassword() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary py-3 flex items-center justify-center gap-2 shadow-[4px_4px_0px_0px_rgba(30,41,59,1)] cursor-pointer"
+              className="w-full btn-primary py-3 flex items-center justify-center gap-2 shadow-[4px_4px_0px_0px_var(--shadow-color)] cursor-pointer"
             >
               <RefreshCw size={14} className={loading ? "animate-spin" : ""} strokeWidth={2.5} />
-              {loading ? "Securing Vault..." : "Save Password & Enter"}
+              {loading ? "Securing Our Memories..." : "Save Password & Enter"}
             </button>
           </form>
         )}

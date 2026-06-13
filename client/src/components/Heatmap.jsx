@@ -11,20 +11,20 @@ export default function Heatmap({ data }) {
 
   // Helper to color density of uploads
   const getColorDensity = (count) => {
-    if (count === 0) return "bg-[#FAF3E0] border-dashed border-[#CBD5E1]"; // Empty Vintage Cream
-    if (count <= 3) return "bg-[#C4B5FD] text-[#1E293B]"; // Light Purple Accent
-    if (count <= 10) return "bg-[#8B5CF6] text-white"; // Violet
-    if (count <= 25) return "bg-[#EC4899] text-white"; // Hot Pink
-    return "bg-[#FBBF24] text-[#1E293B]"; // Amber Golden (Peak memory upload!)
+    if (count === 0) return "bg-[var(--bg-primary)] border-dashed border-[var(--border)]"; // Empty soft rose
+    if (count <= 3) return "bg-[var(--color-warning)] text-[var(--text-primary)]"; // Light peach rose
+    if (count <= 10) return "bg-[var(--color-secondary)] text-white"; // Soft red pink
+    if (count <= 25) return "bg-[var(--color-accent)] text-white"; // Bright rose coral
+    return "bg-[var(--color-primary)] text-white heartbeat"; // Peak memory crimson heartbeat!
   };
 
   return (
-    <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-6 shadow-[5px_5px_0px_0px_rgba(30,41,59,1)]">
-      <div className="flex items-center justify-between mb-4 border-b-2 border-[#1E293B] pb-2">
-        <h3 className="font-black text-sm uppercase tracking-wider text-[#1E293B] flex items-center gap-2">
-          📅 Life Timeline Activity
+    <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)]">
+      <div className="flex items-center justify-between mb-4 border-b-2 border-[var(--border)] pb-2">
+        <h3 className="font-black text-sm uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-2">
+          📅 Our Shared Days Timeline
         </h3>
-        <span className="text-xs font-extrabold uppercase text-[#5C6F84]">Monthly Heatmap</span>
+        <span className="text-xs font-extrabold uppercase text-[var(--text-secondary)]">Our Love Calendar</span>
       </div>
 
       <div className="space-y-6">
@@ -34,12 +34,12 @@ export default function Heatmap({ data }) {
 
           return (
             <div key={year} className="space-y-2">
-              <div className="flex justify-between items-center text-xs font-bold text-[#1E293B]">
-                <span className="text-base font-black px-2 py-0.5 bg-[#FBBF24] border-2 border-[#1E293B] rounded shadow-[1.5px_1.5px_0px_0px_rgba(30,41,59,1)]">
+              <div className="flex justify-between items-center text-xs font-bold text-[var(--text-primary)]">
+                <span className="text-base font-black px-2 py-0.5 bg-[var(--color-accent)] border-2 border-[var(--border)] rounded shadow-[1.5px_1.5px_0px_0px_var(--shadow-color)]">
                   {year}
                 </span>
-                <span className="text-xs uppercase text-[#5C6F84]">
-                  {totalYearUploads} uploads this year
+                <span className="text-xs uppercase text-[var(--text-secondary)]">
+                  {totalYearUploads} memories this year
                 </span>
               </div>
 
@@ -50,7 +50,7 @@ export default function Heatmap({ data }) {
                   return (
                     <div
                       key={month}
-                      className={`flex flex-col items-center justify-between py-2 border-2 border-[#1E293B] rounded-lg shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] transition-all hover:scale-105 ${getColorDensity(count)}`}
+                      className={`flex flex-col items-center justify-between py-2 border-2 border-[var(--border)] rounded-lg shadow-[2px_2px_0px_0px_var(--shadow-color)] transition-all hover:scale-105 ${getColorDensity(count)}`}
                     >
                       <span className="text-xs font-black uppercase tracking-wider opacity-90">
                         {month}
@@ -59,7 +59,7 @@ export default function Heatmap({ data }) {
                         {count}
                       </span>
                       <span className="text-[9px] font-bold uppercase opacity-80 mt-0.5">
-                        {count === 1 ? "memory" : "memories"}
+                        {count === 1 ? "moment" : "moments"}
                       </span>
                     </div>
                   );
@@ -71,27 +71,27 @@ export default function Heatmap({ data }) {
       </div>
 
       {/* Heatmap Legend */}
-      <div className="mt-6 flex flex-wrap gap-4 items-center text-[10px] font-bold text-[#5C6F84] border-t-2 border-dashed border-[#CBD5E1] pt-4">
-        <span className="uppercase">Legend / Activity level:</span>
+      <div className="mt-6 flex flex-wrap gap-4 items-center text-[10px] font-bold text-[var(--text-secondary)] border-t-2 border-dashed border-[var(--border)] pt-4">
+        <span className="uppercase">Memory Level:</span>
         <div className="flex gap-2 items-center">
-          <div className="w-4 h-4 border-2 border-dashed border-[#CBD5E1] bg-[#FAF3E0] rounded"></div>
-          <span>None</span>
+          <div className="w-4 h-4 border-2 border-dashed border-[var(--border)] bg-[var(--bg-primary)] rounded"></div>
+          <span>No memories yet</span>
         </div>
         <div className="flex gap-2 items-center">
-          <div className="w-4 h-4 border-2 border-[#1E293B] bg-[#C4B5FD] rounded shadow-[1px_1px_0px_0px_rgba(30,41,59,1)]"></div>
-          <span>1-3</span>
+          <div className="w-4 h-4 border-2 border-[var(--border)] bg-[var(--color-warning)] rounded shadow-[1px_1px_0px_0px_var(--shadow-color)]"></div>
+          <span>1-3 moments</span>
         </div>
         <div className="flex gap-2 items-center">
-          <div className="w-4 h-4 border-2 border-[#1E293B] bg-[#8B5CF6] rounded shadow-[1px_1px_0px_0px_rgba(30,41,59,1)]"></div>
-          <span>4-10</span>
+          <div className="w-4 h-4 border-2 border-[var(--border)] bg-[var(--color-secondary)] rounded shadow-[1px_1px_0px_0px_var(--shadow-color)]"></div>
+          <span>4-10 moments</span>
         </div>
         <div className="flex gap-2 items-center">
-          <div className="w-4 h-4 border-2 border-[#1E293B] bg-[#EC4899] rounded shadow-[1px_1px_0px_0px_rgba(30,41,59,1)]"></div>
-          <span>11-25</span>
+          <div className="w-4 h-4 border-2 border-[var(--border)] bg-[var(--color-accent)] rounded shadow-[1px_1px_0px_0px_var(--shadow-color)]"></div>
+          <span>11-25 moments</span>
         </div>
         <div className="flex gap-2 items-center">
-          <div className="w-4 h-4 border-2 border-[#1E293B] bg-[#FBBF24] rounded shadow-[1px_1px_0px_0px_rgba(30,41,59,1)]"></div>
-          <span>25+ uploads</span>
+          <div className="w-4 h-4 border-2 border-[var(--border)] bg-[var(--color-primary)] rounded shadow-[1px_1px_0px_0px_var(--shadow-color)]"></div>
+          <span>25+ moments (So much love!)</span>
         </div>
       </div>
     </div>

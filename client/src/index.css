@@ -1,34 +1,35 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Caveat:wght@700&display=swap");
 @import "tailwindcss";
 
 :root {
-  /* Warm Vintage Cream & Slate Neutral Anchors */
-  --bg-primary: #FAF3E0;           /* Rich vintage cream paper feel */
-  --bg-secondary: #FAF3E0;
-  --bg-card: #FFFDF9;              /* Warm eggshell card base */
-  --bg-elevated: #F3E9D2;          /* Rich vintage panel fill */
+  /* Romantic Rose & Burgundy Theme */
+  --bg-primary: #FFEAEF;           /* Soft blush pink paper feel */
+  --bg-secondary: #FFEAEF;
+  --bg-card: #FFFDFE;              /* Warm rose-tinted card base */
+  --bg-elevated: #FFC2D1;          /* Warm rose panel fill */
 
-  --text-primary: #1E293B;         /* Slate 800 (Highly legible text) */
-  --text-secondary: #5C6F84;       /* Slate 500 */
-  --text-muted: #94A3B8;
+  --text-primary: #372024;         /* Deep burgundy slate for high contrast */
+  --text-secondary: #8C535C;       /* Soft dusty rose secondary text */
+  --text-muted: #C2919A;
 
-  /* Playful Saturation (Memphis Candy Palette) */
-  --color-primary: #8B5CF6;        /* Vivid Violet (Primary Actions) */
-  --color-primary-hover: #7C3AED;
-  --color-secondary: #F472B6;      /* Hot Pink (Playful pop) */
-  --color-accent: #FBBF24;         /* Amber Yellow (Optimism highlight) */
-  --color-success: #34D399;        /* Mint Green (Freshness) */
-  --color-warning: #FBBF24;
-  --color-danger: #F87171;         /* Friendly red-coral */
+  /* Romantic Saturation Palette */
+  --color-primary: #E11D48;        /* Rose Red Crimson (Primary Actions) */
+  --color-primary-hover: #BE123C;  /* Deeper Ruby Crimson */
+  --color-secondary: #FB7185;      /* Cotton Candy Pink */
+  --color-accent: #F43F5E;         /* Bright Rose Coral (Highlight) */
+  --color-success: #EC4899;        /* Bubblegum Pink */
+  --color-warning: #FDA4AF;        /* Soft Peach Rose */
+  --color-danger: #F43F5E;         /* Vibrant Rose */
 
-  --border: #1E293B;               /* Chunky Slate 800 borders (2px) */
-  --border-hover: #1E293B;
-  --shadow-color: #1E293B;         /* Dark Pop Shadow */
-  --dot-color: rgba(30, 41, 59, 0.12);
+  --border: #372024;               /* Chunky Deep Burgundy borders */
+  --border-hover: #372024;
+  --shadow-color: #372024;         /* Dark Burgundy Pop Shadow */
+  --dot-color: rgba(225, 29, 72, 0.1); /* Pinkish dot grid */
 
   /* Typography Font Stacks */
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
-  --font-display: "Outfit", system-ui, sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-cursive: "Caveat", cursive;
 
   /* Playful Radii */
   --radius-sm: 8px;
@@ -363,4 +364,20 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.font-cursive {
+  font-family: var(--font-cursive), cursive;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.08); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.08); }
+  70% { transform: scale(1); }
+}
+
+.heartbeat {
+  animation: heartbeat 1.4s infinite;
 }

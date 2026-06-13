@@ -189,7 +189,7 @@ export default function MediaDetail() {
   };
 
   const handleDeleteMedia = async () => {
-    if (!window.confirm("CAUTION: This will delete this memory node permanently from disk storage. Proceed?")) return;
+    if (!window.confirm("CAUTION: This will delete this memory permanently. Proceed?")) return;
     try {
       const res = await apiCall(`/api/media/${id}`, {
         method: "DELETE",
@@ -338,18 +338,18 @@ export default function MediaDetail() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Memory Journal Section */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-6 shadow-[5px_5px_0px_0px_rgba(30,41,59,1)]">
-            <div className="flex items-center justify-between border-b-2 border-[#1E293B] pb-2 mb-4">
-              <h3 className="font-display font-black text-sm uppercase tracking-wider text-[#1E293B] flex items-center gap-2">
+          <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)]">
+            <div className="flex items-center justify-between border-b-2 border-[var(--border)] pb-2 mb-4">
+              <h3 className="font-display font-black text-sm uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-2">
                 <Sparkles size={16} color="var(--color-primary)" strokeWidth={2.5} />
-                Memory Journal
+                Our Love Journal
               </h3>
               {!isEditing && (
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="btn-ghost flex items-center gap-1.5 text-[10px] uppercase py-1 px-3 shadow-[1.5px_1.5px_0px_0px_rgba(30,41,59,1)] cursor-pointer"
+                  className="btn-ghost flex items-center gap-1.5 text-[10px] uppercase py-1 px-3 shadow-[1.5px_1.5px_0px_0px_var(--shadow-color)] cursor-pointer"
                 >
-                  <Edit2 size={10} /> Edit Journal
+                  <Edit2 size={10} /> Edit Our Journal
                 </button>
               )}
             </div>
@@ -358,10 +358,10 @@ export default function MediaDetail() {
             {!isEditing ? (
               <div className="space-y-4">
                 <div className="space-y-1">
-                  <h1 className="font-display font-black text-2xl uppercase tracking-tight text-[#1E293B]">
+                  <h1 className="font-display font-black text-2xl uppercase tracking-tight text-[var(--text-primary)]">
                     {media.title || media.fileName}
                   </h1>
-                  <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-[#5C6F84]">
+                  <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-[var(--text-secondary)]">
                     <span className="flex items-center gap-1">
                       <Calendar size={12} /> {new Date(media.mediaDate).toLocaleDateString()}
                     </span>
@@ -369,15 +369,15 @@ export default function MediaDetail() {
                 </div>
 
                 {/* Story narrative */}
-                <div className="bg-[#FAF3E0] border-2 border-[#1E293B] rounded-lg p-4 shadow-[2px_2px_0px_0px_rgba(30,41,59,1)]">
-                  <div className="text-[9px] font-black text-[#5C6F84] uppercase mb-2">The Story Behind the Memory:</div>
+                <div className="bg-[var(--bg-primary)] border-2 border-[var(--border)] rounded-lg p-4 shadow-[2px_2px_0px_0px_var(--shadow-color)]">
+                  <div className="text-[9px] font-black text-[var(--text-secondary)] uppercase mb-2">What we felt in this moment:</div>
                   {media.story ? (
                     <p className="text-sm font-medium leading-relaxed whitespace-pre-wrap italic">
                       "{media.story}"
                     </p>
                   ) : (
-                    <p className="text-xs font-black uppercase text-[#EC4899] py-2">
-                      ⚠️ No story context added. This memory lacks depth! Click "Edit Journal" above to describe this moment.
+                    <p className="text-xs font-black uppercase text-[var(--color-primary)] py-2">
+                      💖 No story written down yet! Click "Edit Journal" above to describe this special day so we never forget.
                     </p>
                   )}
                 </div>
@@ -385,7 +385,7 @@ export default function MediaDetail() {
                 {/* Tags chip row */}
                 {media.tags && media.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 items-center">
-                    <span className="text-[9px] font-black text-[#5C6F84] uppercase">Tags:</span>
+                    <span className="text-[9px] font-black text-[var(--text-secondary)] uppercase">Tags:</span>
                     {media.tags.map(tag => (
                       <span key={tag} className="tag-chip text-[10px] font-black">
                         #{tag}
@@ -398,7 +398,7 @@ export default function MediaDetail() {
               /* Editing Form Mode */
               <form onSubmit={handleSaveJournal} className="space-y-4 animate-fade-in">
                 <div className="space-y-1">
-                  <label className="text-xs font-black uppercase block">Memory Title</label>
+                  <label className="text-xs font-black uppercase block">Moment Title</label>
                   <input
                     type="text"
                     value={editTitle}
@@ -409,7 +409,7 @@ export default function MediaDetail() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-black uppercase block">Media Date</label>
+                  <label className="text-xs font-black uppercase block">When did this happen?</label>
                   <input
                     type="date"
                     value={editDate}
@@ -449,12 +449,12 @@ export default function MediaDetail() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-black uppercase block">The Story</label>
+                  <label className="text-xs font-black uppercase block">The Story of Us</label>
                   <textarea
                     value={editStory}
                     onChange={(e) => setEditStory(e.target.value)}
                     className="input-field min-h-24 resize-none leading-relaxed"
-                    placeholder="Describe this moment in detail..."
+                    placeholder="Describe this special day..."
                   />
                 </div>
 
@@ -468,9 +468,9 @@ export default function MediaDetail() {
                   </button>
                   <button
                     type="submit"
-                    className="btn-primary text-xs uppercase shadow-[2.5px_2.5px_0px_0px_rgba(30,41,59,1)] cursor-pointer"
+                    className="btn-primary text-xs uppercase shadow-[2.5px_2.5px_0px_0px_var(--shadow-color)] cursor-pointer"
                   >
-                    Save Memory
+                    Save Our Moment
                   </button>
                 </div>
               </form>
@@ -478,35 +478,35 @@ export default function MediaDetail() {
           </div>
 
           {/* Comment System Card */}
-          <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-6 shadow-[5px_5px_0px_0px_rgba(30,41,59,1)] space-y-4">
-            <h3 className="font-display font-black text-sm uppercase tracking-wider text-[#1E293B] border-b-2 border-[#1E293B] pb-2 flex items-center gap-2">
+          <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-4">
+            <h3 className="font-display font-black text-sm uppercase tracking-wider text-[var(--text-primary)] border-b-2 border-[var(--border)] pb-2 flex items-center gap-2">
               <MessageSquare size={16} color="var(--color-secondary)" strokeWidth={2.5} />
-              Comments / Remarks ({comments.length})
+              Our Sweet Messages ({comments.length})
             </h3>
 
             {/* List current comments */}
             <div className="space-y-3 max-h-48 overflow-y-auto pr-1">
               {comments.length === 0 ? (
-                <div className="text-center py-4 text-[10px] font-bold text-[#5C6F84] uppercase">
-                  No comments logged. Add a remark below!
+                <div className="text-center py-4 text-[10px] font-bold text-[var(--text-secondary)] uppercase">
+                  No messages logged yet. Write something sweet below!
                 </div>
               ) : (
                 comments.map((comment) => (
                   <div
                     key={comment._id || comment.id}
-                    className="bg-[#FAF3E0] border-2 border-[#1E293B] rounded p-2.5 shadow-[1.5px_1.5px_0px_0px_rgba(30,41,59,1)] flex items-start justify-between gap-2 text-xs"
+                    className="bg-[var(--bg-primary)] border-2 border-[var(--border)] rounded p-2.5 shadow-[1.5px_1.5px_0px_0px_var(--shadow-color)] flex items-start justify-between gap-2 text-xs"
                   >
                     <div className="space-y-1">
-                      <p className="font-medium text-[#1E293B] leading-relaxed">
+                      <p className="font-medium text-[var(--text-primary)] leading-relaxed">
                         {comment.text}
                       </p>
-                      <span className="text-[8px] font-bold text-[#5C6F84] uppercase block">
+                      <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase block">
                         {new Date(comment.createdAt).toLocaleString()}
                       </span>
                     </div>
                     <button
                       onClick={() => handleDeleteComment(comment._id || comment.id)}
-                      className="text-[#5C6F84] hover:text-[#F87171] p-1 cursor-pointer shrink-0"
+                      className="text-[var(--text-secondary)] hover:text-[var(--color-primary)] p-1 cursor-pointer shrink-0"
                     >
                       <Trash2 size={10} />
                     </button>
@@ -519,7 +519,7 @@ export default function MediaDetail() {
             <form onSubmit={handleAddComment} className="flex gap-2">
               <input
                 type="text"
-                placeholder="Write an archived comment..."
+                placeholder="Write a sweet message..."
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 className="input-field text-xs py-2"
@@ -527,7 +527,7 @@ export default function MediaDetail() {
               />
               <button
                 type="submit"
-                className="btn-primary text-xs uppercase shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] cursor-pointer shrink-0 py-2"
+                className="btn-primary text-xs uppercase shadow-[2px_2px_0px_0px_var(--shadow-color)] cursor-pointer shrink-0 py-2"
               >
                 Send
               </button>
@@ -538,25 +538,25 @@ export default function MediaDetail() {
         {/* Media Relationships / Collections sidebar */}
         <div className="space-y-6">
           {/* Related items list */}
-          <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-6 shadow-[5px_5px_0px_0px_rgba(30,41,59,1)] space-y-4">
-            <h3 className="font-display font-black text-sm uppercase tracking-wider text-[#1E293B] border-b-2 border-[#1E293B] pb-2 flex items-center gap-2">
+          <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-4">
+            <h3 className="font-display font-black text-sm uppercase tracking-wider text-[var(--text-primary)] border-b-2 border-[var(--border)] pb-2 flex items-center gap-2">
               <LinkIcon size={16} color="var(--color-accent)" strokeWidth={2.5} />
-              Related Memories ({relatedItems.length})
+              Connected Moments ({relatedItems.length})
             </h3>
 
             <div className="space-y-2">
               {relatedItems.length === 0 ? (
-                <div className="text-center py-4 text-[10px] font-bold text-[#5C6F84] uppercase">
-                  No related connections mapped.
+                <div className="text-center py-4 text-[10px] font-bold text-[var(--text-secondary)] uppercase">
+                  No connected moments linked yet.
                 </div>
               ) : (
                 relatedItems.map(item => (
                   <Link
                     key={item._id || item.id}
                     to={`/media/${item._id || item.id}`}
-                    className="flex items-center gap-2 p-2 bg-[#FFFDF9] border-2 border-[#1E293B] rounded hover:border-[#8B5CF6] hover:bg-[#FAF3E0] transition-all text-xs font-bold text-[#1E293B] no-underline shadow-[2px_2px_0px_0px_rgba(30,41,59,1)]"
+                    className="flex items-center gap-2 p-2 bg-[var(--bg-card)] border-2 border-[var(--border)] hover:border-[var(--color-primary)] hover:bg-[var(--bg-elevated)] transition-all text-xs font-bold text-[var(--text-primary)] no-underline shadow-[2px_2px_0px_0px_var(--shadow-color)]"
                   >
-                    <div className="w-10 h-10 rounded border bg-[#FAF3E0] overflow-hidden shrink-0">
+                    <div className="w-10 h-10 rounded border bg-[var(--bg-primary)] overflow-hidden shrink-0">
                       <img
                         src={item.mediaType === "video" ? item.thumbnailUrl : item.fileUrl}
                         alt={item.title}
@@ -565,7 +565,7 @@ export default function MediaDetail() {
                     </div>
                     <div className="truncate flex-1">
                       <div className="truncate leading-tight">{item.title || item.fileName}</div>
-                      <span className="text-[8px] font-black text-[#5C6F84] uppercase">
+                      <span className="text-[8px] font-black text-[var(--text-secondary)] uppercase">
                         {item.mediaType} • {new Date(item.mediaDate).toLocaleDateString()}
                       </span>
                     </div>
@@ -576,9 +576,9 @@ export default function MediaDetail() {
 
             {/* Link another media dropdown form */}
             {availableToRelate.length > 0 && (
-              <form onSubmit={handleAddRelation} className="pt-2 border-t-2 border-dashed border-[#CBD5E1] space-y-2">
-                <span className="text-[10px] font-black text-[#5C6F84] uppercase block">
-                  Link Related Memory:
+              <form onSubmit={handleAddRelation} className="pt-2 border-t-2 border-dashed border-[var(--border)] space-y-2">
+                <span className="text-[10px] font-black text-[var(--text-secondary)] uppercase block">
+                  Link a Connected Moment:
                 </span>
                 <div className="flex gap-2">
                   <select
@@ -586,7 +586,7 @@ export default function MediaDetail() {
                     onChange={(e) => setRelationSelectId(e.target.value)}
                     className="input-field text-xs bg-white border-2 py-1.5 flex-1"
                   >
-                    <option value="">-- Choose Memory --</option>
+                    <option value="">-- Choose Moment --</option>
                     {availableToRelate.map(item => (
                       <option key={item._id || item.id} value={item._id || item.id}>
                         {item.title || item.fileName} ({item.mediaType})
@@ -595,7 +595,7 @@ export default function MediaDetail() {
                   </select>
                   <button
                     type="submit"
-                    className="btn-secondary text-[10px] uppercase shadow-[1.5px_1.5px_0px_0px_rgba(30,41,59,1)] py-1.5 cursor-pointer shrink-0"
+                    className="btn-secondary text-[10px] uppercase shadow-[1.5px_1.5px_0px_0px_var(--shadow-color)] py-1.5 cursor-pointer shrink-0"
                   >
                     Link
                   </button>
@@ -608,10 +608,10 @@ export default function MediaDetail() {
 
       {/* Memory Filmstrip Carousel */}
       {allMedia.length > 0 && (
-        <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-6 shadow-[5px_5px_0px_0px_rgba(30,41,59,1)] space-y-4">
-          <h3 className="font-display font-black text-sm uppercase tracking-wider text-[#1E293B] border-b-2 border-[#1E293B] pb-2 flex items-center gap-2">
+        <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-4">
+          <h3 className="font-display font-black text-sm uppercase tracking-wider text-[var(--text-primary)] border-b-2 border-[var(--border)] pb-2 flex items-center gap-2">
             <Sparkles size={16} color="var(--color-primary)" strokeWidth={2.5} />
-            Memory Filmstrip // Explore Vault
+            Explore Our Love Line
           </h3>
           
           <div className="flex overflow-x-auto gap-4 py-2 pb-4 scrollbar-thin">
@@ -621,14 +621,14 @@ export default function MediaDetail() {
                 <Link
                   key={item._id || item.id}
                   to={`/media/${item._id || item.id}`}
-                  className={`w-28 flex-shrink-0 bg-[#FFFDF9] border-2 border-[#1E293B] rounded-lg overflow-hidden shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] transition-all ${
+                  className={`w-28 flex-shrink-0 bg-[var(--bg-card)] border-2 border-[var(--border)] rounded-lg overflow-hidden shadow-[2px_2px_0px_0px_var(--shadow-color)] transition-all ${
                     isCurrent 
-                      ? "ring-3 ring-[#8B5CF6] border-[#8B5CF6] scale-98 shadow-[1px_1px_0px_0px_rgba(139,92,246,1)]" 
-                      : "hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(244,114,182,1)]"
+                      ? "ring-3 ring-[var(--color-primary)] border-[var(--color-primary)] scale-98 shadow-[1px_1px_0px_0px_var(--color-primary)]" 
+                      : "hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_var(--color-secondary)]"
                   }`}
                   style={{ textDecoration: "none" }}
                 >
-                  <div className="h-20 bg-[#FAF3E0] border-b-2 border-[#1E293B] overflow-hidden relative">
+                  <div className="h-20 bg-[var(--bg-primary)] border-b-2 border-[var(--border)] overflow-hidden relative">
                     <img
                       src={item.mediaType === "video" ? item.thumbnailUrl : item.fileUrl}
                       alt={item.title}
@@ -639,7 +639,7 @@ export default function MediaDetail() {
                     </span>
                   </div>
                   <div className="p-1.5 text-center">
-                    <p className="text-[9px] font-black text-[#1E293B] truncate uppercase">
+                    <p className="text-[9px] font-black text-[var(--text-primary)] truncate uppercase">
                       {item.title || item.fileName}
                     </p>
                   </div>

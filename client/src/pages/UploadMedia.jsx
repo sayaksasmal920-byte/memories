@@ -272,19 +272,19 @@ export default function UploadMedia() {
         <div className="lg:col-span-2 space-y-5">
 
           {/* Upload zone */}
-          <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-6 shadow-[5px_5px_0px_0px_rgba(30,41,59,1)] space-y-4">
-            <div className="flex items-center gap-3 border-b-2 border-[#1E293B] pb-3">
-              <div className="w-8 h-8 rounded-full bg-[#8B5CF6] border-2 border-[#1E293B] flex items-center justify-center">
+          <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-4">
+            <div className="flex items-center gap-3 border-b-2 border-[var(--border)] pb-3">
+              <div className="w-8 h-8 rounded-full bg-[var(--color-primary)] border-2 border-[var(--border)] flex items-center justify-center">
                 <Upload size={14} color="white" strokeWidth={2.5} />
               </div>
-              <h2 className="font-display font-black text-base uppercase">
-                Archive Memory Node
+              <h2 className="font-display font-black text-base uppercase text-[var(--text-primary)]">
+                Save a Memory 💖
               </h2>
             </div>
 
             {/* Drop zone */}
             <div
-              className="border-3 border-dashed border-[#1E293B] rounded-xl bg-[#FAF3E0] p-8 text-center transition-all hover:bg-[#F3E9D2] relative cursor-pointer"
+              className="border-3 border-dashed border-[var(--border)] rounded-xl bg-[var(--bg-primary)] p-8 text-center transition-all hover:bg-[var(--bg-elevated)] relative cursor-pointer"
               onClick={() => fileInputRef.current?.click()}
             >
               <input
@@ -296,11 +296,11 @@ export default function UploadMedia() {
                 className="hidden"
                 accept="image/*,video/*,.heic,.heif,.webp,.zip"
               />
-              <Plus size={28} className="mx-auto text-[#1E293B] mb-2" />
-              <p className="text-xs font-black uppercase text-[#1E293B]">
-                Click to select files
+              <Plus size={28} className="mx-auto text-[var(--text-primary)] mb-2" />
+              <p className="text-xs font-black uppercase text-[var(--text-primary)]">
+                Click to choose our memories
               </p>
-              <p className="text-[10px] font-semibold text-[#5C6F84] uppercase mt-1">
+              <p className="text-[10px] font-semibold text-[var(--text-secondary)] uppercase mt-1">
                 Multiple files supported · Photos, HEIC (iPhone), MP4, WebP, ZIP
               </p>
             </div>
@@ -320,8 +320,8 @@ export default function UploadMedia() {
 
           {/* File queue list */}
           {queue.length > 0 && (
-            <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl shadow-[5px_5px_0px_0px_rgba(30,41,59,1)] overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-3 border-b-2 border-[#1E293B] bg-[#FAF3E0]">
+            <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl shadow-[5px_5px_0px_0px_var(--shadow-color)] overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-3 border-b-2 border-[var(--border)] bg-[var(--bg-primary)]">
                 <span className="font-display font-black text-xs uppercase">
                   Selected Files ({queue.length})
                 </span>
@@ -389,11 +389,11 @@ export default function UploadMedia() {
 
               {/* Clear all */}
               {!uploading && queue.length > 1 && (
-                <div className="px-4 py-2.5 border-t-2 border-[#F1F5F9] bg-[#FAF3E0]">
+                <div className="px-4 py-2.5 border-t-2 border-[var(--border)] bg-[var(--bg-primary)]">
                   <button
                     type="button"
                     onClick={() => setQueue([])}
-                    className="flex items-center gap-1.5 text-[9px] font-black uppercase text-[#F87171] hover:text-[#B91C1C] cursor-pointer transition-colors"
+                    className="flex items-center gap-1.5 text-[9px] font-black uppercase text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] cursor-pointer transition-colors"
                   >
                     <Trash2 size={10} /> Clear all
                   </button>
@@ -404,9 +404,9 @@ export default function UploadMedia() {
 
           {/* Shared metadata */}
           {queue.length > 0 && (
-            <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-6 shadow-[5px_5px_0px_0px_rgba(30,41,59,1)] space-y-5">
-              <h3 className="font-display font-black text-xs uppercase border-b-2 border-[#1E293B] pb-2">
-                Shared Metadata <span className="text-[#5C6F84] normal-case font-bold text-[9px]">(applied to all files)</span>
+            <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-5">
+              <h3 className="font-display font-black text-xs uppercase border-b-2 border-[var(--border)] pb-2 text-[var(--text-primary)]">
+                Moment Context <span className="text-[var(--text-secondary)] normal-case font-bold text-[9px]">(applied to these photos)</span>
               </h3>
 
               {/* Media type */}
@@ -420,10 +420,10 @@ export default function UploadMedia() {
                     type="button"
                     onClick={() => setMediaType(id)}
                     disabled={uploading}
-                    className={`flex flex-col items-center justify-center p-3 border-2 border-[#1E293B] rounded-lg font-display font-black text-xs uppercase shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] transition-all cursor-pointer ${
+                    className={`flex flex-col items-center justify-center p-3 border-2 border-[var(--border)] rounded-lg font-display font-black text-xs uppercase shadow-[2px_2px_0px_0px_var(--shadow-color)] transition-all cursor-pointer ${
                       mediaType === id
-                        ? "bg-[#8B5CF6] text-white -translate-y-[2px]"
-                        : "bg-[#FAF3E0] hover:bg-[#FFFDF9]"
+                        ? "bg-[var(--color-primary)] text-white -translate-y-[2px]"
+                        : "bg-[var(--bg-primary)] hover:bg-[var(--bg-card)]"
                     }`}
                   >
                     <Icon size={16} strokeWidth={2.5} className="mb-1" />
@@ -434,8 +434,8 @@ export default function UploadMedia() {
 
               {/* Date */}
               <div className="space-y-1">
-                <label className="text-xs font-black uppercase text-[#1E293B] flex items-center gap-1.5">
-                  <Calendar size={12} /> Media Date
+                <label className="text-xs font-black uppercase text-[var(--text-primary)] flex items-center gap-1.5">
+                  <Calendar size={12} /> When did this happen?
                 </label>
                 <input
                   type="date"
@@ -449,7 +449,7 @@ export default function UploadMedia() {
 
               {/* Tags */}
               <div className="space-y-2">
-                <label className="text-xs font-black uppercase text-[#1E293B] flex items-center gap-1.5">
+                <label className="text-xs font-black uppercase text-[var(--text-primary)] flex items-center gap-1.5">
                   <Tag size={12} /> Tags
                 </label>
                 <div className="tag-input-container">
@@ -479,11 +479,11 @@ export default function UploadMedia() {
 
               {/* Story */}
               <div className="space-y-1">
-                <label className="text-xs font-black uppercase text-[#1E293B] flex items-center gap-1.5">
-                  Memory Story <span className="text-[10px] font-bold text-[#EC4899] normal-case">(optional context)</span>
+                <label className="text-xs font-black uppercase text-[var(--text-primary)] flex items-center gap-1.5">
+                  Moment Story <span className="text-[10px] font-bold text-[var(--color-primary)] normal-case">(optional context)</span>
                 </label>
                 <textarea
-                  placeholder="Write down the details, emotions, or funny moments from this memory..."
+                  placeholder="Write down the feelings, funny jokes, or details of this moment..."
                   value={sharedStory}
                   onChange={(e) => setSharedStory(e.target.value)}
                   disabled={uploading}
@@ -496,41 +496,41 @@ export default function UploadMedia() {
 
         {/* ── Right: Submit panel ───────────────────────────────────────────── */}
         <div className="lg:col-span-1 space-y-4 lg:sticky lg:top-6">
-          <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-6 shadow-[5px_5px_0px_0px_rgba(30,41,59,1)] space-y-4">
-            <h3 className="font-display font-black text-sm uppercase border-b-2 border-[#1E293B] pb-2">
-              Vault Summary
+          <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-xl p-6 shadow-[5px_5px_0px_0px_var(--shadow-color)] space-y-4">
+            <h3 className="font-display font-black text-sm uppercase border-b-2 border-[var(--border)] pb-2 text-[var(--text-primary)]">
+              Moment Summary
             </h3>
 
-            <div className="divide-y divide-[#F1F5F9] text-[10px] font-bold text-[#5C6F84] uppercase">
+            <div className="divide-y divide-[var(--border)] text-[10px] font-bold text-[var(--text-secondary)] uppercase">
               <div className="py-2 flex justify-between">
                 <span>Files selected:</span>
-                <span className="text-[#1E293B] font-extrabold">{queue.length}</span>
+                <span className="text-[var(--text-primary)] font-extrabold">{queue.length}</span>
               </div>
               <div className="py-2 flex justify-between">
                 <span>Type:</span>
-                <span className="text-[#1E293B] font-extrabold capitalize">{mediaType}</span>
+                <span className="text-[var(--text-primary)] font-extrabold capitalize">{mediaType}</span>
               </div>
               <div className="py-2 flex justify-between">
                 <span>Date:</span>
-                <span className="text-[#1E293B] font-extrabold">{sharedDate || "—"}</span>
+                <span className="text-[var(--text-primary)] font-extrabold">{sharedDate || "—"}</span>
               </div>
               <div className="py-2 flex justify-between">
                 <span>Tags:</span>
-                <span className="text-[#1E293B] font-extrabold">{sharedTags.length || "—"}</span>
+                <span className="text-[var(--text-primary)] font-extrabold">{sharedTags.length || "—"}</span>
               </div>
               {uploading && (
                 <div className="py-2 flex justify-between">
                   <span>Progress:</span>
-                  <span className="text-[#8B5CF6] font-extrabold">{doneCount}/{queue.length}</span>
+                  <span className="text-[var(--color-primary)] font-extrabold">{doneCount}/{queue.length}</span>
                 </div>
               )}
             </div>
 
             {/* Progress bar */}
             {uploading && queue.length > 0 && (
-              <div className="w-full bg-[#E2E8F0] rounded-full h-2 border border-[#CBD5E1] overflow-hidden">
+              <div className="w-full bg-[var(--bg-primary)] rounded-full h-2 border border-[var(--border)] overflow-hidden">
                 <div
-                  className="h-full bg-[#8B5CF6] rounded-full transition-all duration-500"
+                  className="h-full bg-[var(--color-primary)] rounded-full transition-all duration-500"
                   style={{ width: `${(doneCount / queue.length) * 100}%` }}
                 />
               </div>
@@ -539,14 +539,14 @@ export default function UploadMedia() {
             <button
               type="submit"
               disabled={uploading || queue.length === 0}
-              className="w-full btn-primary py-3.5 shadow-[4px_4px_0px_0px_rgba(30,41,59,1)] cursor-pointer text-xs uppercase flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full btn-primary py-3.5 shadow-[4px_4px_0px_0px_var(--shadow-color)] cursor-pointer text-xs uppercase flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {uploading ? (
                 <><Loader2 size={14} className="animate-spin" /> Uploading {doneCount}/{queue.length}…</>
               ) : queue.length === 0 ? (
                 "Select files first"
               ) : (
-                <><Upload size={14} /> Upload {queue.length > 1 ? `${queue.length} Files` : "File"}</>
+                <><Upload size={14} /> Save to Our Memories</>
               )}
             </button>
 
@@ -554,14 +554,14 @@ export default function UploadMedia() {
               <button
                 type="button"
                 onClick={() => navigate(mediaType === "video" ? "/videos" : "/photos")}
-                className="w-full btn-secondary py-3 shadow-[3px_3px_0px_0px_rgba(30,41,59,1)] cursor-pointer text-xs uppercase"
+                className="w-full btn-secondary py-3 shadow-[3px_3px_0px_0px_var(--shadow-color)] cursor-pointer text-xs uppercase"
               >
-                Go to Gallery →
+                See Our Gallery →
               </button>
             )}
 
             {!uploading && queue.length === 0 && (
-              <div className="text-center py-6 text-[10px] font-bold text-[#5C6F84] uppercase border-2 border-dashed border-[#CBD5E1] rounded-lg">
+              <div className="text-center py-6 text-[10px] font-bold text-[var(--text-secondary)] uppercase border-2 border-dashed border-[var(--border)] rounded-lg">
                 No files selected yet
               </div>
             )}

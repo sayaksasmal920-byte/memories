@@ -44,20 +44,20 @@ export default function InviteLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF3E0] dot-grid flex flex-col items-center justify-center p-6 text-[#1E293B]">
-      <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-2xl p-8 max-w-md w-full shadow-[8px_8px_0px_0px_rgba(30,41,59,1)]">
+    <div className="min-h-screen bg-[var(--bg-primary)] dot-grid flex flex-col items-center justify-center p-6 text-[var(--text-primary)]">
+      <div className="bg-[var(--bg-card)] border-3 border-[var(--border)] rounded-2xl p-8 max-w-md w-full shadow-[8px_8px_0px_0px_var(--shadow-color)]">
         {/* Branding badge */}
         <div className="flex justify-center mb-6">
-          <div className="w-12 h-12 rounded-full bg-[#EC4899] border-2 border-[#1E293B] flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(30,41,59,1)]">
+          <div className="w-12 h-12 rounded-full bg-[var(--color-primary)] border-2 border-[var(--border)] flex items-center justify-center shadow-[3px_3px_0px_0px_var(--shadow-color)] animate-wiggle">
             <Lock size={20} color="white" strokeWidth={2.5} />
           </div>
         </div>
 
         <h2 className="font-display font-black text-2xl uppercase tracking-wider text-center mb-1">
-          Unlock Your Vault
+          Unlock Our Memories
         </h2>
-        <p className="text-xs font-bold text-center text-[#5C6F84] uppercase tracking-wide mb-8">
-          Personal Media Node • Link: <span className="text-[#8B5CF6]">/u/{token}</span>
+        <p className="text-xs font-bold text-center text-[var(--text-secondary)] uppercase tracking-wide mb-8">
+          Personal Memories • Link: <span className="text-[var(--color-primary)]">/u/{token}</span>
         </p>
 
         {error && (
@@ -69,19 +69,19 @@ export default function InviteLogin() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-1">
-            <label className="text-xs font-black uppercase text-[#1E293B] block">
+            <label className="text-xs font-black uppercase text-[var(--text-primary)] block">
               Invite Token
             </label>
             <input
               type="text"
               disabled
               value={token}
-              className="input-field bg-[#FAF3E0] border-[#CBD5E1] text-[#5C6F84] font-black uppercase text-center tracking-widest"
+              className="input-field bg-[var(--bg-primary)] border-[var(--border)] text-[var(--text-secondary)] font-black uppercase text-center tracking-widest"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-black uppercase text-[#1E293B] block">
+            <label className="text-xs font-black uppercase text-[var(--text-primary)] block">
               Password
             </label>
             <input
@@ -93,25 +93,25 @@ export default function InviteLogin() {
               disabled={loading}
               autoFocus
             />
-            <p className="text-[9px] font-semibold text-[#5C6F84] uppercase mt-1">
-              For your initial login, enter the default password provided (e.g. <span className="select-all text-[#1E293B] font-bold">memory123</span>).
+            <p className="text-[9px] font-semibold text-[var(--text-secondary)] uppercase mt-1">
+              For your initial login, enter the default password provided (e.g. <span className="select-all text-[var(--text-primary)] font-bold">memory123</span>).
             </p>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-primary py-3 flex items-center justify-center gap-2 shadow-[4px_4px_0px_0px_rgba(30,41,59,1)] cursor-pointer"
+            className="w-full btn-primary py-3 flex items-center justify-center gap-2 shadow-[4px_4px_0px_0px_var(--shadow-color)] cursor-pointer"
           >
-            {loading ? "Verifying..." : "Access Vault"}
+            {loading ? "Verifying..." : "Open Our Memories"}
             {!loading && <ArrowRight size={16} strokeWidth={2.5} />}
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t-2 border-dashed border-[#CBD5E1] text-center">
+        <div className="mt-8 pt-6 border-t-2 border-dashed border-[var(--border)] text-center">
           <Link
             to="/"
-            className="text-xs font-black uppercase text-[#5C6F84] hover:text-[#8B5CF6] transition-all no-underline"
+            className="text-xs font-black uppercase text-[var(--text-secondary)] hover:text-[var(--color-primary)] transition-all no-underline"
           >
             ← Back to brand portal
           </Link>

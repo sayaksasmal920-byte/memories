@@ -237,10 +237,10 @@ export default function AdminPanel() {
           </div>
           <div>
             <h2 className="font-display font-black text-xl uppercase tracking-wider leading-tight">
-              MemoryVault Node Portal
+              Memories Portal
             </h2>
             <p className="text-[10px] font-extrabold uppercase text-[#5C6F84]">
-              Generate invite tokens & manage passwords for MemoryVault nodes
+              Generate invite tokens & manage passwords for our memories
             </p>
           </div>
         </div>
@@ -251,7 +251,7 @@ export default function AdminPanel() {
             <div className="w-8 h-8 rounded-full bg-[#EC4899] border-2 border-[#1E293B] flex items-center justify-center shadow-[1.5px_1.5px_0px_0px_rgba(30,41,59,1)]">
               <UserPlus size={14} color="white" strokeWidth={2.5} />
             </div>
-            <h3 className="font-display font-black text-sm uppercase tracking-wider">Generate New Node Invite</h3>
+            <h3 className="font-display font-black text-sm uppercase tracking-wider">Generate New Invite</h3>
           </div>
 
           {inviteError && (
@@ -287,7 +287,7 @@ export default function AdminPanel() {
             <div className="bg-[#FAF3E0] border-2 border-[#10B981] rounded-xl p-4 space-y-3 animate-fade-in shadow-[2px_2px_0px_0px_rgba(16,185,129,1)]">
               <div className="flex items-center gap-2">
                 <Check size={14} className="text-[#047857]" />
-                <span className="text-xs font-black uppercase text-[#047857]">New Node Created Successfully!</span>
+                <span className="text-xs font-black uppercase text-[#047857]">New Invite Created Successfully!</span>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
