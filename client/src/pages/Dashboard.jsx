@@ -43,8 +43,7 @@ export default function Dashboard() {
   // Quick Action card metadata
   const quickActions = [
     { name: "Upload Photo", path: "/photos/upload", icon: Image, bg: "var(--color-primary)", text: "Upload JPEG/PNG/GIF and suggest EXIF times." },
-    { name: "Upload Video", path: "/videos/upload", icon: Video, bg: "var(--color-secondary)", text: "Upload MP4/MOV and auto-render cover frames." },
-    { name: "Archive Sticker", path: "/stickers/upload", icon: Smile, bg: "var(--color-accent)", text: "Upload WEBP files or zip sticker folders." }
+    { name: "Upload Video", path: "/videos/upload", icon: Video, bg: "var(--color-secondary)", text: "Upload MP4/MOV and auto-render cover frames." }
   ];
 
   if (loading) {
@@ -106,7 +105,7 @@ export default function Dashboard() {
             🚀 Quick Archive Actions
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {quickActions.map((act) => {
               const Icon = act.icon;
               return (
@@ -119,7 +118,7 @@ export default function Dashboard() {
                     className="w-10 h-10 rounded-lg border-2 border-[#1E293B] flex items-center justify-center shadow-[1.5px_1.5px_0px_0px_rgba(30,41,59,1)]"
                     style={{ backgroundColor: act.bg }}
                   >
-                    <Icon size={18} color={act.bg === "var(--color-accent)" ? "#1E293B" : "white"} strokeWidth={2.5} />
+                    <Icon size={18} color="white" strokeWidth={2.5} />
                   </div>
                   <div className="mt-2 space-y-1">
                     <div className="text-xs font-black text-[#1E293B] uppercase">{act.name}</div>

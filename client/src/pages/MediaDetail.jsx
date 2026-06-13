@@ -365,11 +365,6 @@ export default function MediaDetail() {
                     <span className="flex items-center gap-1">
                       <Calendar size={12} /> {new Date(media.mediaDate).toLocaleDateString()}
                     </span>
-                    {currentCollection && (
-                      <span className="flex items-center gap-1 text-[#8B5CF6]">
-                        <FolderHeart size={12} /> {currentCollection.name}
-                      </span>
-                    )}
                   </div>
                 </div>
 
@@ -413,33 +408,15 @@ export default function MediaDetail() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label className="text-xs font-black uppercase block">Media Date</label>
-                    <input
-                      type="date"
-                      value={editDate}
-                      onChange={(e) => setEditDate(e.target.value)}
-                      className="input-field"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="text-xs font-black uppercase block">Collection (Life Event)</label>
-                    <select
-                      value={editCollectionId}
-                      onChange={(e) => setEditCollectionId(e.target.value)}
-                      className="input-field bg-white border-2"
-                    >
-                      <option value="">-- No Collection --</option>
-                      {collections.map(c => (
-                        <option key={c._id || c.id} value={c._id || c.id}>
-                          {c.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-black uppercase block">Media Date</label>
+                  <input
+                    type="date"
+                    value={editDate}
+                    onChange={(e) => setEditDate(e.target.value)}
+                    className="input-field"
+                    required
+                  />
                 </div>
 
                 {/* Tags editor */}

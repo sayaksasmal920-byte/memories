@@ -410,11 +410,10 @@ export default function UploadMedia() {
               </h3>
 
               {/* Media type */}
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 {[
                   { id: "photo", name: "Photo", icon: Image },
                   { id: "video", name: "Video", icon: Video },
-                  { id: "sticker", name: "Sticker", icon: Smile },
                 ].map(({ id, name, icon: Icon }) => (
                   <button
                     key={id}
@@ -433,37 +432,19 @@ export default function UploadMedia() {
                 ))}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Date */}
-                <div className="space-y-1">
-                  <label className="text-xs font-black uppercase text-[#1E293B] flex items-center gap-1.5">
-                    <Calendar size={12} /> Media Date
-                  </label>
-                  <input
-                    type="date"
-                    value={sharedDate}
-                    onChange={(e) => setSharedDate(e.target.value)}
-                    disabled={uploading}
-                    className="input-field"
-                    required
-                  />
-                </div>
-
-                {/* Collection */}
-                <div className="space-y-1">
-                  <label className="text-xs font-black uppercase text-[#1E293B]">Collection</label>
-                  <select
-                    value={collectionId}
-                    onChange={(e) => setCollectionId(e.target.value)}
-                    disabled={uploading}
-                    className="input-field bg-white border-2"
-                  >
-                    <option value="">-- No Collection --</option>
-                    {collections.map((c) => (
-                      <option key={c._id || c.id} value={c._id || c.id}>{c.name}</option>
-                    ))}
-                  </select>
-                </div>
+              {/* Date */}
+              <div className="space-y-1">
+                <label className="text-xs font-black uppercase text-[#1E293B] flex items-center gap-1.5">
+                  <Calendar size={12} /> Media Date
+                </label>
+                <input
+                  type="date"
+                  value={sharedDate}
+                  onChange={(e) => setSharedDate(e.target.value)}
+                  disabled={uploading}
+                  className="input-field"
+                  required
+                />
               </div>
 
               {/* Tags */}
@@ -572,7 +553,7 @@ export default function UploadMedia() {
             {uploadDone && !uploading && (
               <button
                 type="button"
-                onClick={() => navigate(mediaType === "video" ? "/videos" : mediaType === "sticker" ? "/stickers" : "/photos")}
+                onClick={() => navigate(mediaType === "video" ? "/videos" : "/photos")}
                 className="w-full btn-secondary py-3 shadow-[3px_3px_0px_0px_rgba(30,41,59,1)] cursor-pointer text-xs uppercase"
               >
                 Go to Gallery →

@@ -133,7 +133,7 @@ export default function SearchPage() {
       ) : (
         <div className="bg-[#FFFDF9] border-3 border-[#1E293B] rounded-xl p-12 text-center shadow-[5px_5px_0px_0px_rgba(30,41,59,1)]">
           <p className="text-xs font-black uppercase text-[#5C6F84]">
-            Type keywords above to find photos, videos, or stickers by title, story logs, or tags.
+            Type keywords above to find photos or videos by title, story logs, or tags.
           </p>
         </div>
       )}

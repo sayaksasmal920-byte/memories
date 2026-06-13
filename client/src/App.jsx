@@ -94,22 +94,8 @@ export default function App() {
             }
           />
 
-          <Route
-            path="/stickers"
-            element={
-              <Layout>
-                <Stickers />
-              </Layout>
-            }
-          />
-          <Route
-            path="/stickers/upload"
-            element={
-              <Layout>
-                <UploadMedia />
-              </Layout>
-            }
-          />
+          <Route path="/stickers" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/stickers/upload" element={<Navigate to="/dashboard" replace />} />
 
           <Route
             path="/media/:id"
@@ -120,14 +106,7 @@ export default function App() {
             }
           />
 
-          <Route
-            path="/collections"
-            element={
-              <Layout>
-                <Collections />
-              </Layout>
-            }
-          />
+          <Route path="/collections" element={<Navigate to="/dashboard" replace />} />
 
           <Route
             path="/favorites"

@@ -34,13 +34,6 @@ export default function LandingPage() {
       description: "Visualize the active phases of your life with contribution-style activity logs and density maps.",
       color: "var(--color-accent)",
       tag: "LIFE MATRIX"
-    },
-    {
-      icon: Image,
-      title: "Sticker Archives & Packs",
-      description: "Upload individual webp files or unpack entire sticker pack ZIP files to compile custom sticker grids.",
-      color: "var(--color-success)",
-      tag: "STICKER LEDGER"
     }
   ];
 
@@ -88,7 +81,7 @@ export default function LandingPage() {
         </h1>
 
         <p className="font-sans text-base md:text-lg text-[#1E293B] font-medium max-w-xl mx-auto mb-10 leading-relaxed">
-          More than just storage. MemoryVault links your pictures, videos, and stickers with the stories that make them live. Private, secure, and context-focused.
+          More than just storage. MemoryVault links your pictures and videos with the stories that make them live. Private, secure, and context-focused.
         </p>
 
         {/* ── Direct Token Gateway Card ────────────────────────────────────── */}
@@ -120,7 +113,7 @@ export default function LandingPage() {
       {/* ── Bouncy Scrolling Marquee ───────────────────────────────────────── */}
       <section className="bg-[#8B5CF6] border-t-3 border-b-3 border-[#1E293B] py-3 overflow-hidden whitespace-nowrap">
         <div className="animate-marquee inline-block text-sm sm:text-base font-display font-black text-white tracking-widest uppercase">
-          ★ PHOTO JOURNALING ★ VIDEO STORIES ★ WHATSAPP STICKERS ★ ZIP PACK BUNDLES ★ MONTHLY ACTIVITY HEATMAPS ★ SECURE INVITES ★ PRIVATE STORAGE ★ PHOTO JOURNALING ★ VIDEO STORIES ★ WHATSAPP STICKERS ★ ZIP PACK BUNDLES ★ MONTHLY ACTIVITY HEATMAPS ★
+          ★ PHOTO JOURNALING ★ VIDEO STORIES ★ MONTHLY ACTIVITY HEATMAPS ★ SECURE INVITES ★ PRIVATE STORAGE ★ PHOTO JOURNALING ★ VIDEO STORIES ★ MONTHLY ACTIVITY HEATMAPS ★
         </div>
       </section>
 

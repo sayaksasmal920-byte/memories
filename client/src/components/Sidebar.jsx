@@ -23,8 +23,6 @@ export default function Sidebar() {
     { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard, color: "var(--color-primary)" },
     { name: "Photos", path: "/photos", icon: Image, color: "var(--color-secondary)" },
     { name: "Videos", path: "/videos", icon: Video, color: "var(--color-accent)" },
-    { name: "Stickers", path: "/stickers", icon: Smile, color: "var(--color-success)" },
-    { name: "Collections", path: "/collections", icon: FolderHeart, color: "var(--color-secondary)" },
     { name: "Favorites", path: "/favorites", icon: Star, color: "var(--color-warning)" },
     { name: "Search", path: "/search", icon: Search, color: "var(--color-primary)" },
     { name: "Password Reset", path: "/admin", icon: Key, color: "var(--color-danger)" },
