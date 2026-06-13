@@ -296,14 +296,14 @@ export default function UploadMedia() {
                   onChange={handleFileChange}
                   disabled={loading}
                   className="absolute inset-0 opacity-0 cursor-pointer w-full"
-                  accept="image/*,video/*,.webp,.zip"
+                  accept="image/*,video/*,.heic,.heif,.webp,.zip"
                 />
                 <Upload size={32} className="mx-auto text-[#1E293B] mb-2" />
                 <p className="text-xs font-black uppercase text-[#1E293B]">
                   {selectedFile ? selectedFile.name : "Drag & drop or browse local storage"}
                 </p>
                 <p className="text-[10px] font-semibold text-[#5C6F84] uppercase mt-1">
-                  Supports Photos, MP4, WebP, and ZIP Sticker Packs
+                  Supports Photos, HEIC (iPhone), MP4, WebP, and ZIP Sticker Packs
                 </p>
               </div>
             </div>

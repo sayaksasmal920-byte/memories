@@ -169,6 +169,8 @@ function getExtFromMime(mimeType) {
     case "image/png": return ".png";
     case "image/gif": return ".gif";
     case "image/webp": return ".webp";
+    case "image/heic": return ".jpg"; // HEIC converted to JPEG on server
+    case "image/heif": return ".jpg"; // HEIF converted to JPEG on server
     case "video/mp4": return ".mp4";
     case "video/quicktime": return ".mov";
     case "video/webm": return ".webm";
