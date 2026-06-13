@@ -1,0 +1,22 @@
+# Dependency directories
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Local configuration files (containing secrets)
+.env
+server/.env
+client/.env
+
+# Local media uploads (which we now save in Backblaze B2)
+server/uploads/
+
+# Build directories
+dist/
+client/dist/
+
+# Local IDE/OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
