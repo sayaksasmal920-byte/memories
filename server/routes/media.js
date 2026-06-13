@@ -114,6 +114,7 @@ router.post(
               tags: parsedTags,
               mediaDate: mediaDate ? new Date(mediaDate) : new Date(),
               uploadedAt: new Date(),
+              storageType: uploadRes.storageType,
             });
             createdStickers.push(newSticker);
           }
@@ -155,6 +156,7 @@ router.post(
         favorite: false,
         views: 0,
         relationships: [],
+        storageType: uploadRes.storageType,
       });
 
       return res.json({
@@ -292,8 +294,10 @@ router.get("/:id", verifyUserToken, async (req, res) => {
 
     const comments = await db.Comment.find({ mediaId: id });
 
+    const mediaObj = updated.toObject ? updated.toObject() : updated;
+
     return res.json({
-      media: { ...updated, views: (updated.views || 0) + 1 },
+      media: { ...mediaObj, views: (mediaObj.views || 0) + 1 },
       comments,
     });
   } catch (err) {

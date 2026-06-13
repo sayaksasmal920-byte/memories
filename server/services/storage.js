@@ -23,15 +23,23 @@ function initR2() {
         endpoint = `https://${s3Endpoint}`;
       }
       
+      let region = "auto";
+      if (s3Endpoint && s3Endpoint.includes("backblazeb2.com")) {
+        const match = s3Endpoint.match(/s3\.([a-z0-9-]+)\.backblazeb2\.com/);
+        if (match) {
+          region = match[1];
+        }
+      }
+
       s3Client = new S3Client({
-        region: "auto",
+        region: region,
         endpoint: endpoint,
         credentials: {
           accessKeyId,
           secretAccessKey,
         },
       });
-      console.log("⚡ Cloud S3-compatible Storage initialized.");
+      console.log(`⚡ Cloud S3-compatible Storage initialized with region: ${region}`);
       return true;
     } catch (err) {
       console.error("❌ Failed to load Cloud S3-compatible AWS SDK:", err.message);
