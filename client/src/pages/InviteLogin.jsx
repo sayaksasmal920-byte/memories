@@ -12,12 +12,13 @@ export default function InviteLogin() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // If already logged in, skip straight to dashboard
+  // If already logged in WITH THIS SAME token, skip to dashboard.
+  // If visiting a different token URL (e.g. a new invite), show the login form.
   useEffect(() => {
-    if (user) {
+    if (user && user.inviteToken === token) {
       navigate("/dashboard");
     }
-  }, [user, navigate]);
+  }, [user, token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

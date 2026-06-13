@@ -26,21 +26,30 @@ async function convertIfHeic(buffer, mimeType, originalName) {
 
   if (!isHeic) return { buffer, mimeType, originalName };
 
+  console.log(`[HEIC] Detected HEIC/HEIF file: ${originalName} (mime: ${mimeType || 'empty'}), converting to JPEG...`);
+
   try {
-    const jpegBuffer = await heicConvert({
+    const jpegResult = await heicConvert({
       buffer: buffer,
       format: "JPEG",
       quality: 0.92,
     });
+    // heic-convert may return Buffer, Uint8Array, or ArrayBuffer depending on Node version
+    const jpegBuffer = Buffer.isBuffer(jpegResult)
+      ? jpegResult
+      : Buffer.from(jpegResult);
+
     const newName = originalName.replace(/\.(heic|heif)$/i, ".jpg");
+    console.log(`[HEIC] Converted ${originalName} → ${newName} (${jpegBuffer.length} bytes)`);
     return {
-      buffer: Buffer.from(jpegBuffer),
+      buffer: jpegBuffer,
       mimeType: "image/jpeg",
       originalName: newName,
     };
   } catch (err) {
-    console.error("HEIC conversion failed, uploading original:", err.message);
-    return { buffer, mimeType, originalName };
+    console.error(`[HEIC] Conversion failed for ${originalName}:`, err.message);
+    // Throw so the upload route returns a clear error instead of silently uploading raw HEIC
+    throw new Error(`HEIC conversion failed: ${err.message}. Please convert to JPG/PNG before uploading.`);
   }
 }
 
@@ -100,17 +109,14 @@ router.post(
     let originalName = primaryFile.originalname;
     let fileBuffer = primaryFile.buffer;
 
-    // Convert HEIC/HEIF to JPEG transparently before any processing
-    ({ buffer: fileBuffer, mimeType, originalName } = await convertIfHeic(
-      fileBuffer,
-      mimeType,
-      originalName
-    ));
-    if (mimeType === "image/heic" || mimeType === "image/heif") {
-      console.log(`[HEIC] Converted ${originalName} → JPEG`);
-    }
-
     try {
+      // Convert HEIC/HEIF to JPEG before any processing (throws with clear message on failure)
+      ({ buffer: fileBuffer, mimeType, originalName } = await convertIfHeic(
+        fileBuffer,
+        mimeType,
+        originalName
+      ));
+
       let parsedTags = [];
       if (tags) {
         try {
@@ -206,7 +212,7 @@ router.post(
       });
     } catch (err) {
       console.error("Upload error:", err);
-      return res.status(500).json({ error: "Failed to upload and store media." });
+      return res.status(500).json({ error: err.message || "Failed to upload and store media." });
     }
   }
 );
