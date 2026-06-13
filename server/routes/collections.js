@@ -7,7 +7,7 @@ const { verifyUserToken } = require("../middleware/auth");
 router.get("/", verifyUserToken, async (req, res) => {
   const userId = req.user._id || req.user.id;
   try {
-    const list = await db.Collection.find({ userId });
+    const list = await db.Collection.find({});
     return res.json(list);
   } catch (err) {
     console.error("Fetch collections error:", err);

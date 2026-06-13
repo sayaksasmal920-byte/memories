@@ -15,7 +15,7 @@ router.get("/", verifyUserToken, async (req, res) => {
   const queryTerm = q.trim().toLowerCase();
 
   try {
-    const allMedia = await db.Media.find({ userId });
+    const allMedia = await db.Media.find({});
     
     // Perform filtering based on keyword match
     const matches = allMedia.filter(item => {

@@ -217,7 +217,7 @@ router.get("/", verifyUserToken, async (req, res) => {
   const { type, favorite, collectionId, hasStory } = req.query;
 
   try {
-    const query = { userId };
+    const query = {};
     if (type) query.mediaType = type;
     if (favorite !== undefined) query.favorite = favorite === "true";
     if (collectionId !== undefined) query.collectionId = collectionId === "null" ? null : collectionId;
@@ -247,7 +247,7 @@ router.get("/", verifyUserToken, async (req, res) => {
 router.get("/heatmap", verifyUserToken, async (req, res) => {
   const userId = req.user._id || req.user.id;
   try {
-    const mediaList = await db.Media.find({ userId });
+    const mediaList = await db.Media.find({});
     
     // Group count by year and month
     const heatmap = {};
@@ -275,7 +275,7 @@ router.get("/similar", verifyUserToken, async (req, res) => {
   const { mediaDate, tags, title, excludeId } = req.query;
 
   try {
-    const list = await db.Media.find({ userId });
+    const list = await db.Media.find({});
     const matchResults = [];
     const targetDate = mediaDate ? new Date(mediaDate) : null;
     const targetTags = tags ? tags.split(",") : [];
